@@ -1,0 +1,21 @@
+Restaurant: Luigi's Pizza
+Address: 686 5th Ave, Brooklyn, NY 11215
+Rep: rep_04
+Duration: 2.8 min
+Outcome: not_booked
+Scores: Fails all five dimensions. No research, no discovery, no social proof, never learns the owner's name, pitches features before knowing anything about the business.
+
+Rep: Hi there, I'm trying to reach the owner or manager of Luigi's Pizza.
+Prospect: Yeah, this is Giovanni. What's up?
+Rep: Hey Giovanni, this is Jake over at Owner.com. We're a platform that helps restaurants grow their business online. We work with a lot of independent pizzerias and we've been able to help them increase their revenue pretty significantly through our website, online ordering, and delivery solutions. Is this something you'd be open to hearing a little more about?
+Prospect: We've been doing this for 50 years. We have a website, we're on DoorDash. I think we're good.
+Rep: Totally understand, and a lot of restaurants we work with said the same thing before they saw what we could do. What we offer is really different from just being listed on DoorDash. We actually help restaurants build their own direct ordering channel so they're not as dependent on third party apps and can keep more of their revenue.
+Prospect: We do fine with DoorDash honestly. Been working for us.
+Rep: Sure, but the commissions on those platforms add up. Most restaurants are paying anywhere from 20 to 30 percent per order which is a big cut. We can bring that down significantly and also help with your Google visibility and customer loyalty.
+Prospect: Look I appreciate it but I'm really not looking for anything right now. We stay pretty busy.
+Rep: I hear you. Would it be okay if I sent over some information so you have it on file in case anything changes?
+Prospect: Sure fine, you can send something.
+Rep: Great, what's the best email?
+Prospect: Info at luigispizzabrooklyn dot com.
+Rep: Perfect, I'll get that over to you. Thanks for your time Giovanni, have a great day.
+Prospect: Yep.

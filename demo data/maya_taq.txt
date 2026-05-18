@@ -1,0 +1,28 @@
+Restaurant: Maya Taqueria (Prospect Heights)
+Address: 637 Vanderbilt Ave, Brooklyn, NY 11238
+Rep: rep_07
+Duration: 5.4 min
+Outcome: not_booked
+Scores: Fails on named local social proof, fails on ICP qualification before features. Passes on research, discovery, and contact identity. Lost the call because the rep rushed into pricing when the prospect was almost there.
+
+Rep: Hey, is this Daniel?
+Prospect: Yeah, who's this?
+Rep: Hey Daniel, Jake calling from Owner.com. Do you have like two minutes? I promise I'll be quick.
+Prospect: Yeah go ahead.
+Rep: So I was looking at Maya Taqueria before I called and when I search "best burritos Brooklyn" or "Mexican food Prospect Heights," you guys are ranking around eighth or ninth. You've got 4.8 stars and over 4,000 ratings on DoorDash alone, which is honestly better than most of the spots above you. People love you when they find you. The issue is just that Google isn't surfacing you first.
+Prospect: Yeah we've been here 15 years, we do pretty well with regulars. The delivery's picked up a lot recently.
+Rep: That's great to hear. Where is most of that delivery volume coming from, DoorDash mostly?
+Prospect: DoorDash and Grubhub. DoorDash is probably 60 percent of it.
+Rep: And you've got a few locations right? Park Slope too?
+Prospect: Yeah Park Slope and East Village now too.
+Rep: Nice, three locations. So what we do is build you your own ordering system directly on your website so customers order from you instead of through DoorDash. You keep the customer data, you pay us about 5 percent instead of whatever DoorDash is taking, and the delivery still runs the same way for the customer. It's a pretty significant margin improvement especially across three locations.
+Prospect: What does something like that cost?
+Rep: So there's a monthly subscription and a small transaction fee on orders. I don't want to throw numbers out without showing you the full picture because honestly the ROI depends on your volume. Can I ask roughly how much you're doing through DoorDash monthly across the locations?
+Prospect: I mean it's decent volume but I'd rather know the ballpark cost before I spend time on a demo.
+Rep: Totally fair. It's typically in the range of a few hundred dollars a month depending on the plan, and most restaurants see that paid back within the first couple weeks of direct orders. It really does depend on your specific numbers though, which is why I'd love to just show you the platform for 20 minutes and we can run the math together with your actual volume.
+Prospect: Yeah I don't know, I'd have to think about it. Can you send me something in writing?
+Rep: Of course, what's the best email?
+Prospect: daniel@mayataqueria.com
+Rep: Perfect, I'll send that over today. And would it be alright if I followed up in a week or so if I don't hear back?
+Prospect: Sure, that's fine.
+Rep: Appreciate your time Daniel, talk soon.

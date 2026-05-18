@@ -1,0 +1,26 @@
+Restaurant: Hanco's (Smith Street location)
+Address: 134 Smith St, Brooklyn, NY 11201
+Rep: rep_09
+Duration: 8.1 min
+Outcome: demo_booked
+
+Rep: Hey, is this Hanco?
+Prospect: Yeah, speaking.
+Rep: Hey Hanco, this is Jake calling from Owner.com. Quick question before I get into anything, are you the owner or manager over there at the Smith Street location?
+Prospect: Yeah I own all three locations. What's this about?
+Rep: Perfect, you're exactly who I wanted to reach. I'll keep it brief. I was doing some research before I called and I pulled up your Google presence. When I search "best banh mi Brooklyn" or "Vietnamese restaurant Cobble Hill," you guys are showing up around fifth or sixth. There are spots with half your reviews ranking above you. You're sitting at 4.4 stars on Yelp with over 700 reviews on Smith Street alone. Once people find you they come back. The issue is just discoverability.
+Prospect: Yeah I mean we've been here since 2005, word of mouth has always been our thing. We stay pretty busy.
+Rep: Totally makes sense, you built something real over 20 years. Can I ask, are you doing delivery through DoorDash and Uber Eats right now?
+Prospect: Yeah both. DoorDash is the main one. It's probably 40 percent of our business across the three locations at this point.
+Rep: And do you have a sense of what you're paying them per order in commission?
+Prospect: I think it's somewhere around 25, 26 percent? My accountant keeps flagging it. It adds up fast when you're doing volume across three spots.
+Rep: Yeah across three locations that number is significant. So here's what we do, and tell me if this resonates. We build restaurants their own ordering system directly on their website so customers order from you instead of through DoorDash. You own the customer data, you keep their email and phone number for your own marketing, and instead of paying 25 percent you pay us around 5. The delivery still runs through the same driver networks so the customer experience is identical. We actually have a spot in Park Slope, Coco Ramen on 5th Ave, similar setup to you, solid delivery volume, family owned. They were doing about 12 grand a month through third parties. Six months in they're doing 22 through their own site and their DoorDash volume went up because the visibility improved.
+Prospect: Wait so you're saying we'd still show up on DoorDash but also have our own thing?
+Rep: Exactly. You don't lose the marketplace presence. You add a direct channel on top of it that you actually own. And the SEO work we do gets you ranking higher on Google which actually feeds both channels.
+Prospect: Huh. Okay. And you said you do this across multiple locations?
+Rep: Yeah, multi-location is something we do a lot actually. The dashboard gives you a unified view across all three so you're not logging into three separate things. Hanco, I don't want to oversell it on a cold call. The best thing I can do is show you the actual product for 20 minutes. I can pull up what a restaurant similar to yours looks like inside the platform, show you the ordering flow from the customer side, the whole thing. Are you generally around this week or next?
+Prospect: I'm usually in on Thursday mornings before the lunch rush, like before noon.
+Rep: Thursday morning works perfectly. What's the best email to send the invite to?
+Prospect: hanco@hancos.com
+Rep: Got it. I'll send that over in the next few minutes. Really appreciate your time Hanco, talk Thursday.
+Prospect: Sounds good, thanks.
