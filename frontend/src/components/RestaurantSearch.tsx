@@ -30,51 +30,70 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const autocompleteRef = useRef<any>(null);
   const PLACES_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!PLACES_KEY || showManual) return;
+    if (document.getElementById("gmaps-script")) return;
 
-    const initAutocomplete = () => {
-      if (!inputRef.current || !window.google) return;
+    const script = document.createElement("script");
+    script.id = "gmaps-script";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${PLACES_KEY}&libraries=places&loading=async`;
+    script.async = true;
+    script.onerror = () => setShowManual(true);
+    document.head.appendChild(script);
+  }, [PLACES_KEY, showManual]);
+
+  useEffect(() => {
+    if (!PLACES_KEY || showManual || !containerRef.current) return;
+
+    const waitForGoogle = setInterval(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const g = (window as any).google;
+      if (!g?.maps?.places?.PlaceAutocompleteElement) return;
+      clearInterval(waitForGoogle);
+
       try {
-        autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const widget = new (g.maps.places.PlaceAutocompleteElement as any)({
           types: ["establishment"],
-          fields: ["name", "address_components", "website", "place_id"],
         });
-        autocompleteRef.current.addListener("place_changed", () => {
-          const place = autocompleteRef.current.getPlace();
-          if (!place?.name) return;
-          const cityComp = place.address_components?.find((c: { types: string[] }) =>
-            c.types.includes("locality")
-          );
-          const stateComp = place.address_components?.find((c: { types: string[] }) =>
+        widget.style.cssText =
+          "width:100%;--gmp-mat-text-field-active-indicator-color:#1e3a5f;";
+        containerRef.current!.appendChild(widget);
+        autocompleteRef.current = widget;
+
+        widget.addEventListener("gmp-placeselect", async (e: CustomEvent) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const place = (e as any).place;
+          await place.fetchFields({
+            fields: ["displayName", "addressComponents", "websiteURI"],
+          });
+          const components: { types: string[]; longText: string; shortText: string }[] =
+            place.addressComponents ?? [];
+          const cityComp = components.find((c) => c.types.includes("locality"));
+          const stateComp = components.find((c) =>
             c.types.includes("administrative_area_level_1")
           );
-          const resolvedCity = [cityComp?.long_name, stateComp?.short_name]
+          const resolvedCity = [cityComp?.longText, stateComp?.shortText]
             .filter(Boolean)
             .join(", ");
-          submitBrief({ name: place.name, city: resolvedCity, website_url: place.website });
+          submitBrief({
+            name: place.displayName,
+            city: resolvedCity,
+            website_url: place.websiteURI,
+          });
         });
       } catch {
         setShowManual(true);
       }
-    };
+    }, 200);
 
-    if (window.google) {
-      initAutocomplete();
-    } else if (!document.getElementById("gmaps-script")) {
-      window.initGooglePlaces = initAutocomplete;
-      const script = document.createElement("script");
-      script.id = "gmaps-script";
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${PLACES_KEY}&libraries=places&callback=initGooglePlaces`;
-      script.async = true;
-      script.onerror = () => setShowManual(true);
-      document.head.appendChild(script);
-    }
+    return () => clearInterval(waitForGoogle);
   }, [PLACES_KEY, showManual]);
 
   const submitBrief = async (info: RestaurantInfo) => {
@@ -132,12 +151,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
         {!showManual ? (
           <div className="space-y-4">
             {PLACES_KEY ? (
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder="Search for a restaurant..."
-                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
-              />
+              <div ref={containerRef} className="w-full" />
             ) : (
               <div className="text-sm text-amber-700 bg-amber-50 px-4 py-3 rounded-xl border border-amber-200">
                 Google Places not configured — use manual entry below.

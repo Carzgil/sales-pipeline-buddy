@@ -51,6 +51,27 @@ Open **http://localhost:5173** — the app is ready.
 
 ---
 
+## Running after initial setup
+
+Once you've done the one-time install, starting the app each time only takes two commands (one per terminal):
+
+**Terminal 1 — backend:**
+```bash
+cd backend
+source venv/bin/activate   # Windows: venv\Scripts\activate
+uvicorn main:app --reload
+```
+
+**Terminal 2 — frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+The `source venv/bin/activate` step is required every time you open a new terminal — `uvicorn` and all Python dependencies live inside the virtual environment and aren't available globally without it.
+
+---
+
 ## Running the tests
 
 ```bash
