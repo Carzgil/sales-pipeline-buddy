@@ -15,15 +15,23 @@ const LOADING_MESSAGES = [
 
 export default function RestaurantSearch({ onBriefGenerated }: Props) {
   const [showManual, setShowManual] = useState(false);
+  const [query, setQuery] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [predictions, setPredictions] = useState<any[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [url, setUrl] = useState("");
-  const [selectedPlace, setSelectedPlace] = useState<RestaurantInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const autocompleteServiceRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const placesServiceRef = useRef<any>(null);
+  const sessionTokenRef = useRef<unknown>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const PLACES_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 
   useEffect(() => {
@@ -39,56 +47,81 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
   }, [PLACES_KEY, showManual]);
 
   useEffect(() => {
-    if (!PLACES_KEY || showManual || !containerRef.current) return;
-    if (containerRef.current.childElementCount > 0) return;
+    if (!PLACES_KEY || showManual) return;
 
-    const waitForGoogle = setInterval(() => {
+    const poll = setInterval(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const g = (window as any).google;
-      if (!g?.maps?.places?.PlaceAutocompleteElement) return;
-      clearInterval(waitForGoogle);
-
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const widget = new (g.maps.places.PlaceAutocompleteElement as any)({
-          types: ["establishment"],
-        });
-        widget.style.cssText = "width:100%;";
-        containerRef.current!.appendChild(widget);
-
-        widget.addEventListener("gmp-placeselect", async (e: Event) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const place = (e as any).place;
-          try {
-            await place.fetchFields({
-              fields: ["displayName", "addressComponents", "websiteUri"],
-            });
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const components: any[] = place.addressComponents ?? [];
-            const cityComp = components.find((c) => c.types.includes("locality"));
-            const stateComp = components.find((c) =>
-              c.types.includes("administrative_area_level_1")
-            );
-            const resolvedCity = [cityComp?.longText, stateComp?.shortText]
-              .filter(Boolean)
-              .join(", ");
-            setSelectedPlace({
-              name: place.displayName,
-              city: resolvedCity,
-              website_url: place.websiteUri ?? undefined,
-            });
-            setError(null);
-          } catch {
-            setError("Could not load place details — try again or enter manually.");
-          }
-        });
-      } catch {
-        setShowManual(true);
-      }
+      if (!g?.maps?.places?.AutocompleteService) return;
+      clearInterval(poll);
+      autocompleteServiceRef.current = new g.maps.places.AutocompleteService();
+      const div = document.createElement("div");
+      placesServiceRef.current = new g.maps.places.PlacesService(div);
+      sessionTokenRef.current = new g.maps.places.AutocompleteSessionToken();
     }, 200);
 
-    return () => clearInterval(waitForGoogle);
+    return () => clearInterval(poll);
   }, [PLACES_KEY, showManual]);
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    setError(null);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (value.length < 2) {
+      setPredictions([]);
+      setShowDropdown(false);
+      return;
+    }
+    debounceRef.current = setTimeout(() => {
+      autocompleteServiceRef.current?.getPlacePredictions(
+        { input: value, types: ["establishment"], sessionToken: sessionTokenRef.current },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (results: any[], status: string) => {
+          if (status === "OK" && results) {
+            setPredictions(results.slice(0, 5));
+            setShowDropdown(true);
+          } else {
+            setPredictions([]);
+          }
+        }
+      );
+    }, 300);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSelectPrediction = (prediction: any) => {
+    setQuery(prediction.description);
+    setPredictions([]);
+    setShowDropdown(false);
+
+    placesServiceRef.current?.getDetails(
+      {
+        placeId: prediction.place_id,
+        fields: ["name", "address_components", "website"],
+        sessionToken: sessionTokenRef.current,
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (place: any, status: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const g = (window as any).google;
+        // Reset session token after getDetails closes the session
+        sessionTokenRef.current = new g.maps.places.AutocompleteSessionToken();
+
+        if (status !== "OK" || !place) {
+          setError("Could not load place details — try again or enter manually.");
+          return;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const comps: any[] = place.address_components ?? [];
+        const cityComp = comps.find((c) => c.types.includes("locality"));
+        const stateComp = comps.find((c) => c.types.includes("administrative_area_level_1"));
+        const resolvedCity = [cityComp?.long_name, stateComp?.short_name]
+          .filter(Boolean)
+          .join(", ");
+        submitBrief({ name: place.name, city: resolvedCity, website_url: place.website });
+      }
+    );
+  };
 
   const submitBrief = async (info: RestaurantInfo) => {
     if (!info.name || !info.city) {
@@ -97,6 +130,8 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
     }
     setLoading(true);
     setError(null);
+    setPredictions([]);
+    setShowDropdown(false);
 
     let msgIdx = 0;
     const interval = setInterval(() => {
@@ -144,22 +179,36 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
 
         {!showManual ? (
           <div className="space-y-3">
-            {PLACES_KEY ? (
-              <div ref={containerRef} className="w-full" />
-            ) : (
-              <div className="text-sm text-amber-700 bg-amber-50 px-4 py-3 rounded-xl border border-amber-200">
-                Google Places not configured — use manual entry below.
-              </div>
-            )}
-
-            {selectedPlace && (
-              <button
-                onClick={() => submitBrief(selectedPlace)}
-                className="w-full bg-[#1e3a5f] hover:bg-[#2d4f7a] text-white py-3 px-6 rounded-xl font-semibold transition-colors"
-              >
-                Generate Brief for {selectedPlace.name}
-              </button>
-            )}
+            <div className="relative">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => handleQueryChange(e.target.value)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                onFocus={() => predictions.length > 0 && setShowDropdown(true)}
+                autoComplete="off"
+                placeholder="Search for a restaurant..."
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
+              />
+              {showDropdown && predictions.length > 0 && (
+                <ul className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
+                  {predictions.map((p) => (
+                    <li
+                      key={p.place_id}
+                      onMouseDown={() => handleSelectPrediction(p)}
+                      className="px-4 py-3 hover:bg-slate-50 cursor-pointer text-sm border-b border-slate-100 last:border-0"
+                    >
+                      <span className="font-medium text-slate-800">
+                        {p.structured_formatting?.main_text}
+                      </span>
+                      <span className="text-slate-400 ml-1">
+                        {p.structured_formatting?.secondary_text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <button
               onClick={() => setShowManual(true)}

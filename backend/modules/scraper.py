@@ -3,21 +3,19 @@ Restaurant intelligence scraper.
 
 Delivery platform detection: scrapes the restaurant's own website for
 DoorDash/UberEats/Grubhub links — most reliable signal, zero rate-limit risk.
-Falls back to Google Places (for website URL) + DDG search when no URL provided.
+Falls back to Google Places (for website URL) + Brave Search when no URL provided.
 
-Competitor / ranking data: DuckDuckGo text search with sequential calls and
-backoff to avoid rate limiting.
+Competitor / ranking data: Brave Search API — reliable, no rate limiting,
+2,000 free queries/month. Falls back to empty results if key not configured.
 """
 
 import asyncio
 import os
 import re
-import time
 from typing import Optional
 from urllib.parse import urljoin, urlparse
 
 import httpx
-from duckduckgo_search import DDGS
 
 HEADERS = {
     "User-Agent": (
@@ -95,18 +93,25 @@ def _determine_fit_signal(
 # I/O helpers
 # ---------------------------------------------------------------------------
 
-def _ddg_text(query: str, max_results: int = 8) -> list:
-    """Single DDG search with retry on rate limit."""
-    for attempt in range(2):
-        try:
-            if attempt > 0:
-                time.sleep(3)
-            results = list(DDGS().text(query, max_results=max_results))
-            if results:
-                return results
-        except Exception:
-            pass
-    return []
+def _brave_search(query: str, max_results: int = 8) -> list:
+    """Search using Brave Search API. Returns [] if key not configured."""
+    api_key = os.environ.get("BRAVE_SEARCH_API_KEY")
+    if not api_key:
+        return []
+    try:
+        resp = httpx.get(
+            "https://api.search.brave.com/res/v1/web/search",
+            params={"q": query, "count": min(max_results, 20), "search_lang": "en"},
+            headers={"Accept": "application/json", "X-Subscription-Token": api_key},
+            timeout=8,
+        )
+        results = resp.json().get("web", {}).get("results", [])
+        return [
+            {"title": r.get("title", ""), "href": r.get("url", ""), "body": r.get("description", "")}
+            for r in results
+        ]
+    except Exception:
+        return []
 
 
 def _get_places_info(name: str, city: str) -> dict:
@@ -193,8 +198,8 @@ def _scrape_website_for_platforms(url: str) -> list:
 
 
 def _find_competitors(name: str, city: str) -> list:
-    """Find local competitors using a single DDG search."""
-    results = _ddg_text(f"best restaurants {city} reviews", max_results=12)
+    """Find local competitors using Brave Search."""
+    results = _brave_search(f"best restaurants {city} reviews", max_results=12)
     competitors = []
     for result in results:
         title = result.get("title", "")
@@ -218,10 +223,10 @@ def _find_competitors(name: str, city: str) -> list:
 
 def _find_platforms_via_search(name: str, city: str) -> list:
     """
-    Fallback: search DDG for delivery platform presence when no website URL
-    is available. Uses a single combined query instead of 3 parallel site: queries.
+    Fallback: search Brave for delivery platform presence when no website URL
+    is available.
     """
-    results = _ddg_text(f'"{name}" {city} order delivery', max_results=10)
+    results = _brave_search(f'"{name}" {city} order delivery', max_results=10)
     found = []
     for result in results:
         href = result.get("href", "")
@@ -235,8 +240,8 @@ def _find_platforms_via_search(name: str, city: str) -> list:
 
 
 def _check_search_rank(name: str, city: str) -> dict:
-    """Approximate search rank from DDG results."""
-    results = _ddg_text(f"{name} {city}", max_results=8)
+    """Approximate search rank from Brave Search results."""
+    results = _brave_search(f"{name} {city}", max_results=8)
     for i, result in enumerate(results):
         title = result.get("title", "")
         href = result.get("href", "")
@@ -263,14 +268,13 @@ async def search_restaurant_intelligence(
     Gather restaurant intelligence for the pre-call brief.
 
     Strategy:
-    1. Delivery platforms: scrape the restaurant's own website first (most reliable).
-       Fall back to a DDG search if no URL is available.
-    2. Competitors + rank: sequential DDG calls with a delay between them to
-       avoid rate limiting.
+    1. Google Places: get website URL + review count (reliable, no rate limits).
+    2. Delivery platforms: scrape restaurant's website first; fall back to Brave Search.
+    3. Competitors + rank: run in parallel via Brave Search (no rate limiting).
     """
     is_franchise = _is_likely_franchise(name)
 
-    # --- Google Places: get website URL + review count if not provided ---
+    # --- Google Places: get website URL + review count ---
     places_info = await asyncio.to_thread(_get_places_info, name, city)
     effective_url = website_url or places_info.get("website")
 
@@ -278,20 +282,16 @@ async def search_restaurant_intelligence(
     if effective_url:
         platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
         if not platforms:
-            await asyncio.sleep(0.5)
             platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
     else:
         platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
 
-    # --- Competitors (sequential, 1.5s after platform search) ---
-    await asyncio.sleep(1.5)
-    competitors = await asyncio.to_thread(_find_competitors, name, city)
+    # --- Competitors + rank in parallel (Brave has no rate limiting) ---
+    competitors, rank_info = await asyncio.gather(
+        asyncio.to_thread(_find_competitors, name, city),
+        asyncio.to_thread(_check_search_rank, name, city),
+    )
 
-    # --- Search rank (sequential, 1.5s after competitors) ---
-    await asyncio.sleep(1.5)
-    rank_info = await asyncio.to_thread(_check_search_rank, name, city)
-
-    # Prefer Places review count when DDG didn't surface one
     review_count = rank_info.get("review_count") or places_info.get("review_count")
     fit_signal, fit_reason = _determine_fit_signal(name, is_franchise, platforms, rank_info)
 
