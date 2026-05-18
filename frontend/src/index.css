@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Override Google Places Autocomplete dropdown z-index */
+.pac-container {
+  z-index: 9999;
+  border-radius: 0.75rem;
+  margin-top: 4px;
+  box-shadow: 0 10px 25px -3px rgb(0 0 0 / 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.pac-item {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.pac-item:hover {
+  background-color: #f8fafc;
+}
