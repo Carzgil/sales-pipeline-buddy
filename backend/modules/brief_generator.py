@@ -9,8 +9,9 @@ Helps independent restaurants build their own branded online ordering system. Do
 
 IDEAL CUSTOMER PROFILE (from 150-call conversion analysis):
 - Independent restaurant (non-franchise) — franchises cannot control their own website or pricing
-- Already on DoorDash, UberEats, or Grubhub — actively paying commissions, strong incentive to switch
-- Has some online presence (website, Google listing) — signals digital-forward mindset
+- Already doing online ordering through ANY platform — delivery marketplaces (DoorDash/UberEats/Grubhub) or direct ordering tools (ChowNow, Toast, Slice, Olo)
+- DoorDash/UberEats/Grubhub = paying 20-30% commission = strongest incentive to switch to Owner
+- ChowNow/Toast/Slice = already invested in online ordering = knows the problem, easier conversion
 - NOT a fit: franchise chains, dine-in only, pre-opening, mid-buyout, capacity-constrained
 
 CUISINE CONVERSION DATA (from Owner's call dataset):

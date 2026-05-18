@@ -1,9 +1,28 @@
+"""
+Restaurant intelligence scraper.
+
+Delivery platform detection: scrapes the restaurant's own website for
+DoorDash/UberEats/Grubhub links — most reliable signal, zero rate-limit risk.
+
+Competitor / ranking data: DuckDuckGo text search with sequential calls and
+backoff to avoid rate limiting.
+"""
+
 import asyncio
 import re
+import time
 from typing import Optional
 
+import httpx
 from duckduckgo_search import DDGS
 
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    )
+}
 
 FRANCHISE_INDICATORS = [
     "mcdonald", "subway", "chipotle", "starbucks", "domino", "pizza hut",
@@ -15,6 +34,27 @@ FRANCHISE_INDICATORS = [
     "firehouse subs", "potbelly", "noodles & company", "einstein",
 ]
 
+# Primary delivery marketplaces (paying 20-30% commission — core Owner ICP signal)
+DELIVERY_PLATFORMS = {
+    "DoorDash": ["doordash.com"],
+    "Uber Eats": ["ubereats.com", "uber.com/eats"],
+    "Grubhub": ["grubhub.com"],
+}
+
+# Other online ordering platforms (signal: restaurant does online ordering,
+# knows what it costs, and is open to digital solutions)
+ORDERING_PLATFORMS = {
+    "ChowNow": ["chownow.com", "chownow-order"],
+    "Toast": ["toasttab.com", "pos.toasttab"],
+    "Slice": ["slicelife.com"],
+    "Olo": ["oloapp.com", "olo.com"],
+    "Bopple": ["bopple.com"],
+}
+
+
+# ---------------------------------------------------------------------------
+# Pure logic helpers (tested, no I/O)
+# ---------------------------------------------------------------------------
 
 def _is_likely_franchise(name: str) -> bool:
     name_lower = name.lower()
@@ -34,15 +74,64 @@ def _extract_review_count(text: str) -> Optional[int]:
     return None
 
 
-def _ddg_text(query: str, max_results: int = 10) -> list:
+def _determine_fit_signal(
+    name: str, is_franchise: bool, platforms: list, rank_info: dict
+) -> tuple[str, str]:
+    if is_franchise:
+        return "red", f"{name} appears to be a franchise chain — Owner.com serves independent restaurants only"
+    if len(platforms) >= 2:
+        return "green", f"{name} is on {' and '.join(platforms)} — paying 20-30% commissions, strong ICP fit for Owner's direct ordering platform"
+    if len(platforms) == 1:
+        return "green", f"{name} is on {platforms[0]} — strong candidate for Owner's commission-free ordering platform"
+    if rank_info.get("rank") is None:
+        return "yellow", "Could not verify delivery presence — confirm ordering setup in discovery"
+    return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify if they do online ordering"
+
+
+# ---------------------------------------------------------------------------
+# I/O helpers
+# ---------------------------------------------------------------------------
+
+def _ddg_text(query: str, max_results: int = 8) -> list:
+    """Single DDG search with retry on rate limit."""
+    for attempt in range(2):
+        try:
+            if attempt > 0:
+                time.sleep(3)
+            results = list(DDGS().text(query, max_results=max_results))
+            if results:
+                return results
+        except Exception:
+            pass
+    return []
+
+
+def _scrape_website_for_platforms(url: str) -> list:
+    """
+    Scrape the restaurant's own website for delivery platform links.
+    This is the most reliable detection method — restaurants link directly
+    to their ordering pages.
+    """
     try:
-        return list(DDGS().text(query, max_results=max_results))
+        resp = httpx.get(url, timeout=8, follow_redirects=True, headers=HEADERS)
+        content = resp.text.lower()
+        found = []
+        # Check high-commission delivery marketplaces first
+        for platform, domains in DELIVERY_PLATFORMS.items():
+            if any(domain in content for domain in domains):
+                found.append(platform)
+        # Also check other ordering platforms — signals restaurant does online ordering
+        for platform, domains in ORDERING_PLATFORMS.items():
+            if any(domain in content for domain in domains):
+                found.append(platform)
+        return found
     except Exception:
         return []
 
 
 def _find_competitors(name: str, city: str) -> list:
-    results = _ddg_text(f"best restaurants {city}", max_results=15)
+    """Find local competitors using a single DDG search."""
+    results = _ddg_text(f"best restaurants {city} reviews", max_results=12)
     competitors = []
     for result in results:
         title = result.get("title", "")
@@ -51,7 +140,7 @@ def _find_competitors(name: str, city: str) -> list:
             continue
         if not any(
             kw in (title + body).lower()
-            for kw in ["restaurant", "cafe", "bar", "grill", "kitchen", "bistro", "eatery", "diner", "pizza", "sushi", "taco"]
+            for kw in ["restaurant", "cafe", "bar", "grill", "kitchen", "bistro", "pizza", "sushi", "taco", "diner"]
         ):
             continue
         clean_name = re.split(r"\s*[\|\-–—]\s*", title)[0].strip()
@@ -64,27 +153,27 @@ def _find_competitors(name: str, city: str) -> list:
     return competitors
 
 
-def _check_delivery_platforms(name: str, city: str) -> list:
-    platforms = []
-    checks = {
-        "DoorDash": f'"{name}" {city} site:doordash.com',
-        "Uber Eats": f'"{name}" {city} site:ubereats.com',
-        "Grubhub": f'"{name}" {city} site:grubhub.com',
-    }
-    for platform_name, query in checks.items():
-        results = _ddg_text(query, max_results=3)
-        for r in results:
-            href = r.get("href", "")
-            domain = platform_name.lower().replace(" ", "").replace("uber", "uber").replace("eats", "eats")
-            domain_map = {"DoorDash": "doordash.com", "Uber Eats": "ubereats.com", "Grubhub": "grubhub.com"}
-            if domain_map[platform_name] in href:
-                platforms.append(platform_name)
-                break
-    return platforms
+def _find_platforms_via_search(name: str, city: str) -> list:
+    """
+    Fallback: search DDG for delivery platform presence when no website URL
+    is available. Uses a single combined query instead of 3 parallel site: queries.
+    """
+    results = _ddg_text(f'"{name}" {city} order delivery', max_results=10)
+    found = []
+    for result in results:
+        href = result.get("href", "")
+        body = result.get("body", "").lower()
+        all_platforms = {**DELIVERY_PLATFORMS, **ORDERING_PLATFORMS}
+        for platform, domains in all_platforms.items():
+            if platform not in found:
+                if any(domain in href or domain in body for domain in domains):
+                    found.append(platform)
+    return found
 
 
 def _check_search_rank(name: str, city: str) -> dict:
-    results = _ddg_text(f"{name} {city} restaurant", max_results=10)
+    """Approximate search rank from DDG results."""
+    results = _ddg_text(f"{name} {city}", max_results=8)
     for i, result in enumerate(results):
         title = result.get("title", "")
         href = result.get("href", "")
@@ -93,34 +182,50 @@ def _check_search_rank(name: str, city: str) -> dict:
             review_count = _extract_review_count(body) or _extract_review_count(title)
             return {
                 "rank": i + 1,
-                "context": f"Ranked #{i + 1} in search results for '{name} {city}'",
-                "snippet": body[:200] if body else "",
+                "context": f"Appears in top {i + 1} search results for '{name} {city}'",
+                "snippet": body[:200],
                 "review_count": review_count,
             }
     return {"rank": None, "context": f"Could not determine search rank for {name}", "snippet": ""}
 
 
-def _determine_fit_signal(name: str, is_franchise: bool, platforms: list, rank_info: dict) -> tuple[str, str]:
-    if is_franchise:
-        return "red", f"{name} appears to be a franchise chain — Owner.com serves independent restaurants only"
-    if len(platforms) >= 2:
-        platform_str = " and ".join(platforms)
-        return "green", f"{name} is on {platform_str} — paying 20-30% commissions, strong ICP fit for Owner's direct ordering platform"
-    if len(platforms) == 1:
-        return "green", f"{name} is on {platforms[0]} — strong candidate for Owner's commission-free ordering platform"
-    if rank_info.get("rank") is None:
-        return "yellow", "Could not verify delivery presence or online visibility — confirm delivery setup in discovery"
-    return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify if they do online ordering"
+# ---------------------------------------------------------------------------
+# Main entry point
+# ---------------------------------------------------------------------------
 
+async def search_restaurant_intelligence(
+    name: str, city: str, website_url: Optional[str] = None
+) -> dict:
+    """
+    Gather restaurant intelligence for the pre-call brief.
 
-async def search_restaurant_intelligence(name: str, city: str, website_url: Optional[str] = None) -> dict:
+    Strategy:
+    1. Delivery platforms: scrape the restaurant's own website first (most reliable).
+       Fall back to a DDG search if no URL is available.
+    2. Competitors + rank: sequential DDG calls with a delay between them to
+       avoid rate limiting.
+    """
     is_franchise = _is_likely_franchise(name)
 
-    competitors, platforms, rank_info = await asyncio.gather(
-        asyncio.to_thread(_find_competitors, name, city),
-        asyncio.to_thread(_check_delivery_platforms, name, city),
-        asyncio.to_thread(_check_search_rank, name, city),
-    )
+    # --- Delivery platforms ---
+    # Website scraping is done synchronously in a thread since httpx.get is blocking.
+    # DDG fallback only fires when there's no website URL.
+    if website_url:
+        platforms = await asyncio.to_thread(_scrape_website_for_platforms, website_url)
+        if not platforms:
+            # Website didn't have obvious links — try a search too
+            await asyncio.sleep(0.5)
+            platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
+    else:
+        platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
+
+    # --- Competitors (sequential, 1.5s after platform search) ---
+    await asyncio.sleep(1.5)
+    competitors = await asyncio.to_thread(_find_competitors, name, city)
+
+    # --- Search rank (sequential, 1.5s after competitors) ---
+    await asyncio.sleep(1.5)
+    rank_info = await asyncio.to_thread(_check_search_rank, name, city)
 
     fit_signal, fit_reason = _determine_fit_signal(name, is_franchise, platforms, rank_info)
 
