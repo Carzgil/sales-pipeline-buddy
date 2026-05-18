@@ -40,24 +40,28 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
 
     const initAutocomplete = () => {
       if (!inputRef.current || !window.google) return;
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ["establishment"],
-        fields: ["name", "address_components", "website", "place_id"],
-      });
-      autocompleteRef.current.addListener("place_changed", () => {
-        const place = autocompleteRef.current.getPlace();
-        if (!place?.name) return;
-        const cityComp = place.address_components?.find((c: { types: string[] }) =>
-          c.types.includes("locality")
-        );
-        const stateComp = place.address_components?.find((c: { types: string[] }) =>
-          c.types.includes("administrative_area_level_1")
-        );
-        const resolvedCity = [cityComp?.long_name, stateComp?.short_name]
-          .filter(Boolean)
-          .join(", ");
-        submitBrief({ name: place.name, city: resolvedCity, website_url: place.website });
-      });
+      try {
+        autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+          types: ["establishment"],
+          fields: ["name", "address_components", "website", "place_id"],
+        });
+        autocompleteRef.current.addListener("place_changed", () => {
+          const place = autocompleteRef.current.getPlace();
+          if (!place?.name) return;
+          const cityComp = place.address_components?.find((c: { types: string[] }) =>
+            c.types.includes("locality")
+          );
+          const stateComp = place.address_components?.find((c: { types: string[] }) =>
+            c.types.includes("administrative_area_level_1")
+          );
+          const resolvedCity = [cityComp?.long_name, stateComp?.short_name]
+            .filter(Boolean)
+            .join(", ");
+          submitBrief({ name: place.name, city: resolvedCity, website_url: place.website });
+        });
+      } catch {
+        setShowManual(true);
+      }
     };
 
     if (window.google) {
@@ -68,6 +72,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
       script.id = "gmaps-script";
       script.src = `https://maps.googleapis.com/maps/api/js?key=${PLACES_KEY}&libraries=places&callback=initGooglePlaces`;
       script.async = true;
+      script.onerror = () => setShowManual(true);
       document.head.appendChild(script);
     }
   }, [PLACES_KEY, showManual]);
