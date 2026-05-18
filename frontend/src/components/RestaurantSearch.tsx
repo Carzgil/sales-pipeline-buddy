@@ -6,14 +6,6 @@ interface Props {
   onBriefGenerated: (restaurant: RestaurantInfo, brief: BriefData) => void;
 }
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    google: any;
-    initGooglePlaces: () => void;
-  }
-}
-
 const LOADING_MESSAGES = [
   "Checking search rankings...",
   "Looking for delivery platform presence...",
@@ -26,15 +18,13 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [url, setUrl] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState<RestaurantInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const autocompleteRef = useRef<any>(null);
-  const PLACES_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
-
   const containerRef = useRef<HTMLDivElement>(null);
+  const PLACES_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 
   useEffect(() => {
     if (!PLACES_KEY || showManual) return;
@@ -50,6 +40,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
 
   useEffect(() => {
     if (!PLACES_KEY || showManual || !containerRef.current) return;
+    if (containerRef.current.childElementCount > 0) return;
 
     const waitForGoogle = setInterval(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,31 +53,34 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
         const widget = new (g.maps.places.PlaceAutocompleteElement as any)({
           types: ["establishment"],
         });
-        widget.style.cssText =
-          "width:100%;--gmp-mat-text-field-active-indicator-color:#1e3a5f;";
+        widget.style.cssText = "width:100%;";
         containerRef.current!.appendChild(widget);
-        autocompleteRef.current = widget;
 
-        widget.addEventListener("gmp-placeselect", async (e: CustomEvent) => {
+        widget.addEventListener("gmp-placeselect", async (e: Event) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const place = (e as any).place;
-          await place.fetchFields({
-            fields: ["displayName", "addressComponents", "websiteURI"],
-          });
-          const components: { types: string[]; longText: string; shortText: string }[] =
-            place.addressComponents ?? [];
-          const cityComp = components.find((c) => c.types.includes("locality"));
-          const stateComp = components.find((c) =>
-            c.types.includes("administrative_area_level_1")
-          );
-          const resolvedCity = [cityComp?.longText, stateComp?.shortText]
-            .filter(Boolean)
-            .join(", ");
-          submitBrief({
-            name: place.displayName,
-            city: resolvedCity,
-            website_url: place.websiteURI,
-          });
+          try {
+            await place.fetchFields({
+              fields: ["displayName", "addressComponents", "websiteUri"],
+            });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const components: any[] = place.addressComponents ?? [];
+            const cityComp = components.find((c) => c.types.includes("locality"));
+            const stateComp = components.find((c) =>
+              c.types.includes("administrative_area_level_1")
+            );
+            const resolvedCity = [cityComp?.longText, stateComp?.shortText]
+              .filter(Boolean)
+              .join(", ");
+            setSelectedPlace({
+              name: place.displayName,
+              city: resolvedCity,
+              website_url: place.websiteUri ?? undefined,
+            });
+            setError(null);
+          } catch {
+            setError("Could not load place details — try again or enter manually.");
+          }
         });
       } catch {
         setShowManual(true);
@@ -149,7 +143,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
         </div>
 
         {!showManual ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {PLACES_KEY ? (
               <div ref={containerRef} className="w-full" />
             ) : (
@@ -157,6 +151,16 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
                 Google Places not configured — use manual entry below.
               </div>
             )}
+
+            {selectedPlace && (
+              <button
+                onClick={() => submitBrief(selectedPlace)}
+                className="w-full bg-[#1e3a5f] hover:bg-[#2d4f7a] text-white py-3 px-6 rounded-xl font-semibold transition-colors"
+              >
+                Generate Brief for {selectedPlace.name}
+              </button>
+            )}
+
             <button
               onClick={() => setShowManual(true)}
               className="w-full text-sm text-slate-400 hover:text-slate-600 py-1 transition-colors"
@@ -193,7 +197,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
                 Website URL{" "}
-                <span className="text-slate-400 font-normal">(optional)</span>
+                <span className="text-slate-400 font-normal">(optional — improves delivery detection)</span>
               </label>
               <input
                 type="url"
