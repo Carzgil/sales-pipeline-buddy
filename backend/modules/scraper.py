@@ -3,15 +3,18 @@ Restaurant intelligence scraper.
 
 Delivery platform detection: scrapes the restaurant's own website for
 DoorDash/UberEats/Grubhub links — most reliable signal, zero rate-limit risk.
+Falls back to Google Places (for website URL) + DDG search when no URL provided.
 
 Competitor / ranking data: DuckDuckGo text search with sequential calls and
 backoff to avoid rate limiting.
 """
 
 import asyncio
+import os
 import re
 import time
 from typing import Optional
+from urllib.parse import urljoin, urlparse
 
 import httpx
 from duckduckgo_search import DDGS
@@ -106,25 +109,85 @@ def _ddg_text(query: str, max_results: int = 8) -> list:
     return []
 
 
+def _get_places_info(name: str, city: str) -> dict:
+    """
+    Call Google Places Text Search to get the restaurant's website URL and
+    review count. Used when no website URL is available from the frontend.
+    Silently returns {} if the API key is missing or the call fails.
+    """
+    api_key = os.environ.get("GOOGLE_PLACES_API_KEY")
+    if not api_key:
+        return {}
+    try:
+        resp = httpx.get(
+            "https://maps.googleapis.com/maps/api/place/textsearch/json",
+            params={"query": f"{name} restaurant {city}", "type": "restaurant", "key": api_key},
+            timeout=6,
+            headers=HEADERS,
+        )
+        results = resp.json().get("results", [])
+        if not results:
+            return {}
+        place = results[0]
+        info: dict = {
+            "review_count": place.get("user_ratings_total"),
+            "rating": place.get("rating"),
+        }
+        place_id = place.get("place_id")
+        if place_id:
+            detail = httpx.get(
+                "https://maps.googleapis.com/maps/api/place/details/json",
+                params={"place_id": place_id, "fields": "website", "key": api_key},
+                timeout=6,
+                headers=HEADERS,
+            ).json().get("result", {})
+            info["website"] = detail.get("website")
+        return info
+    except Exception:
+        return {}
+
+
 def _scrape_website_for_platforms(url: str) -> list:
     """
     Scrape the restaurant's own website for delivery platform links.
-    This is the most reliable detection method — restaurants link directly
-    to their ordering pages.
+    First checks static HTML content, then follows ordering-related links
+    one level deep to catch redirect-based "Order Now" buttons.
     """
     try:
         resp = httpx.get(url, timeout=8, follow_redirects=True, headers=HEADERS)
         content = resp.text.lower()
-        found = []
-        # Check high-commission delivery marketplaces first
-        for platform, domains in DELIVERY_PLATFORMS.items():
+        all_platforms = {**DELIVERY_PLATFORMS, **ORDERING_PLATFORMS}
+        found = set()
+
+        for platform, domains in all_platforms.items():
             if any(domain in content for domain in domains):
-                found.append(platform)
-        # Also check other ordering platforms — signals restaurant does online ordering
-        for platform, domains in ORDERING_PLATFORMS.items():
-            if any(domain in content for domain in domains):
-                found.append(platform)
-        return found
+                found.add(platform)
+
+        if found:
+            return list(found)
+
+        # Follow ordering links one level deep to catch JS-redirect buttons
+        base = f"{urlparse(str(resp.url)).scheme}://{urlparse(str(resp.url)).netloc}"
+        hrefs = re.findall(r'href=["\']([^"\']+)["\']', resp.text)
+        order_links = [
+            h for h in hrefs
+            if any(kw in h.lower() for kw in ["order", "delivery", "pickup"])
+            and not h.startswith(("#", "javascript", "mailto", "tel:"))
+        ][:4]
+
+        for href in order_links:
+            target = href if href.startswith("http") else urljoin(base, href)
+            try:
+                r2 = httpx.get(target, timeout=5, follow_redirects=True, headers=HEADERS)
+                final_url = str(r2.url).lower()
+                content2 = r2.text.lower()
+                for platform, domains in all_platforms.items():
+                    if any(domain in final_url or domain in content2 for domain in domains):
+                        found.add(platform)
+            except Exception:
+                continue
+
+        return list(found)
     except Exception:
         return []
 
@@ -207,13 +270,14 @@ async def search_restaurant_intelligence(
     """
     is_franchise = _is_likely_franchise(name)
 
+    # --- Google Places: get website URL + review count if not provided ---
+    places_info = await asyncio.to_thread(_get_places_info, name, city)
+    effective_url = website_url or places_info.get("website")
+
     # --- Delivery platforms ---
-    # Website scraping is done synchronously in a thread since httpx.get is blocking.
-    # DDG fallback only fires when there's no website URL.
-    if website_url:
-        platforms = await asyncio.to_thread(_scrape_website_for_platforms, website_url)
+    if effective_url:
+        platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
         if not platforms:
-            # Website didn't have obvious links — try a search too
             await asyncio.sleep(0.5)
             platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
     else:
@@ -227,6 +291,8 @@ async def search_restaurant_intelligence(
     await asyncio.sleep(1.5)
     rank_info = await asyncio.to_thread(_check_search_rank, name, city)
 
+    # Prefer Places review count when DDG didn't surface one
+    review_count = rank_info.get("review_count") or places_info.get("review_count")
     fit_signal, fit_reason = _determine_fit_signal(name, is_franchise, platforms, rank_info)
 
     return {
@@ -238,6 +304,6 @@ async def search_restaurant_intelligence(
         "raw_signals": {
             "is_franchise": is_franchise,
             "rank_context": rank_info.get("context", ""),
-            "review_count": rank_info.get("review_count"),
+            "review_count": review_count,
         },
     }
