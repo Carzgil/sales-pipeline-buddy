@@ -8,21 +8,24 @@ interface Props {
 
 const FIT_CONFIG = {
   green: {
-    badge: "bg-green-100 text-green-800 border-green-200",
-    dot: "bg-green-500",
-    banner: "bg-green-50 border-green-200 text-green-800",
-    label: "Strong Fit",
+    topBorder: "border-t-green-600",
+    dot: "bg-green-600",
+    badge: "bg-green-600 text-white border-green-600",
+    banner: "bg-green-50 border-green-200 text-green-900",
+    label: "Confirmed Fit",
   },
   yellow: {
-    badge: "bg-yellow-100 text-yellow-800 border-yellow-200",
-    dot: "bg-yellow-400",
-    banner: "bg-yellow-50 border-yellow-200 text-yellow-800",
-    label: "Proceed — Verify",
+    topBorder: "border-t-amber-400",
+    dot: "bg-amber-400",
+    badge: "bg-amber-400 text-amber-950 border-amber-400",
+    banner: "bg-amber-50 border-amber-200 text-amber-900",
+    label: "Verify in Discovery",
   },
   red: {
-    badge: "bg-red-100 text-red-800 border-red-200",
-    dot: "bg-red-500",
-    banner: "bg-red-50 border-red-200 text-red-800",
+    topBorder: "border-t-red-600",
+    dot: "bg-red-600",
+    badge: "bg-red-600 text-white border-red-600",
+    banner: "bg-red-50 border-red-200 text-red-900",
     label: "Likely Non-Fit",
   },
 };
@@ -32,54 +35,65 @@ export default function BriefCard({ restaurant, brief, onProceedToPostCall }: Pr
 
   return (
     <div className="space-y-4">
-      {/* Restaurant header + fit badge */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-slate-800">{restaurant.name}</h2>
-          <p className="text-slate-400 text-sm">{restaurant.city}</p>
+      {/* Restaurant header */}
+      <div
+        className={`bg-white border border-edge border-t-2 ${fit.topBorder} rounded-xl p-6 shadow-sm animate-fade-up`}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h2 className="font-serif text-4xl text-ink" style={{ fontWeight: 600 }}>
+              {restaurant.name}
+            </h2>
+            <p className="font-mono text-[10px] tracking-[0.2em] text-ink-dim uppercase mt-1">
+              {restaurant.city}
+            </p>
+          </div>
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-mono tracking-[0.12em] uppercase flex-shrink-0 mt-1 font-medium ${fit.badge}`}
+          >
+            <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${fit.dot}`} />
+            {fit.label}
+          </div>
         </div>
-        <div
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold border flex-shrink-0 ${fit.badge}`}
-        >
-          <div className={`w-2 h-2 rounded-full ${fit.dot}`} />
-          {fit.label}
-        </div>
-      </div>
 
-      {/* Fit reason banner */}
-      <div className={`px-4 py-3 rounded-xl border text-sm font-medium ${fit.banner}`}>
-        {brief.fit_reason}
+        <div className={`mt-4 px-4 py-3 rounded-lg border text-sm font-medium ${fit.banner}`}>
+          {brief.fit_reason}
+        </div>
       </div>
 
       {/* Brief sections */}
-      <div className="grid gap-3">
-        <BriefSection
-          icon="🔍"
-          title="Online Visibility"
-          content={brief.online_visibility}
-        />
-        <BriefSection
-          icon="🛵"
-          title="Delivery Setup"
-          content={brief.delivery_setup}
-        />
-        <BriefSection
-          icon="💬"
-          title="Suggested Opening"
-          content={brief.opening_suggestion}
-          highlight
-        />
+      <div
+        className="bg-white border border-edge rounded-xl overflow-hidden shadow-sm animate-fade-up"
+        style={{ animationDelay: "100ms" }}
+      >
+        <BriefSection title="Online Visibility" content={brief.online_visibility} />
+        <div className="border-t border-edge" />
+        <BriefSection title="Delivery Setup" content={brief.delivery_setup} />
+      </div>
+
+      {/* Opening suggestion */}
+      <div
+        className="bg-flame-dim border border-flame/20 rounded-xl p-5 animate-fade-up"
+        style={{ animationDelay: "200ms" }}
+      >
+        <p className="font-mono text-[10px] tracking-[0.2em] text-flame uppercase mb-3 font-medium">
+          Suggested Opening
+        </p>
+        <p className="font-serif italic text-xl text-ink leading-snug" style={{ fontWeight: 400 }}>
+          "{brief.opening_suggestion}"
+        </p>
       </div>
 
       {/* CTA */}
-      <div className="pt-2">
+      <div className="animate-fade-up" style={{ animationDelay: "280ms" }}>
         <button
           onClick={onProceedToPostCall}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-xl font-semibold transition-colors"
+          style={{ backgroundColor: "#e87020" }}
+          className="w-full hover:opacity-90 text-white py-3 px-6 rounded-xl font-semibold text-sm transition-opacity shadow-sm"
         >
           Proceed to Post-Call Evaluation →
         </button>
-        <p className="text-center text-xs text-slate-400 mt-2">
+        <p className="text-center text-xs text-ink-faint mt-2">
           Make your call first — come back here after to score it
         </p>
       </div>
@@ -87,42 +101,13 @@ export default function BriefCard({ restaurant, brief, onProceedToPostCall }: Pr
   );
 }
 
-function BriefSection({
-  icon,
-  title,
-  content,
-  highlight = false,
-}: {
-  icon: string;
-  title: string;
-  content: string;
-  highlight?: boolean;
-}) {
+function BriefSection({ title, content }: { title: string; content: string }) {
   return (
-    <div
-      className={`rounded-xl p-4 border ${
-        highlight
-          ? "bg-orange-50 border-orange-200"
-          : "bg-white border-slate-200"
-      }`}
-    >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span>{icon}</span>
-        <h3
-          className={`text-sm font-semibold ${
-            highlight ? "text-orange-800" : "text-slate-700"
-          }`}
-        >
-          {title}
-        </h3>
-      </div>
-      <p
-        className={`text-sm leading-relaxed ${
-          highlight ? "text-orange-900 italic font-medium" : "text-slate-600"
-        }`}
-      >
-        {content}
+    <div className="px-5 py-4">
+      <p className="font-mono text-[10px] tracking-[0.2em] text-ink-dim uppercase mb-2 font-medium">
+        {title}
       </p>
+      <p className="text-sm text-ink leading-relaxed">{content}</p>
     </div>
   );
 }

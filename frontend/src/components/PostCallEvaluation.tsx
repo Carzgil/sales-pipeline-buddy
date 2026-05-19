@@ -39,81 +39,84 @@ export default function PostCallEvaluation({ restaurant, onScorecardGenerated }:
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[420px] gap-6">
-        <div className="w-12 h-12 border-4 border-[#1e3a5f] border-t-transparent rounded-full animate-spin" />
-        <div className="text-center">
-          <p className="text-lg font-semibold text-slate-700">Scoring your call...</p>
-          <p className="text-sm text-slate-400 mt-1">Evaluating 5 behavioral dimensions</p>
+      <div className="flex flex-col items-center justify-center min-h-[480px] gap-5">
+        <div className="text-center space-y-4 animate-fade-up">
+          <p className="font-mono text-xs tracking-[0.18em] text-ink-dim uppercase">
+            Scoring your call...
+          </p>
+          <div className="flex gap-2 justify-center">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full bg-flame animate-dot-pulse"
+                style={{ animationDelay: `${i * 220}ms` }}
+              />
+            ))}
+          </div>
+          <p className="font-mono text-[10px] tracking-[0.15em] text-ink-faint uppercase">
+            Evaluating 5 behavioral dimensions
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6 animate-fade-up">
       <div>
-        <h2 className="text-xl font-bold text-slate-800">Post-Call Evaluation</h2>
-        <p className="text-slate-400 text-sm mt-0.5">
-          Call with{" "}
-          <span className="font-medium text-slate-600">{restaurant.name}</span> ·{" "}
+        <p className="font-mono text-[10px] tracking-[0.2em] text-flame uppercase mb-1 font-medium">
+          Post-Call Evaluation
+        </p>
+        <h2 className="font-serif text-3xl text-ink" style={{ fontWeight: 600 }}>
+          {restaurant.name}
+        </h2>
+        <p className="font-mono text-[10px] tracking-[0.15em] text-ink-dim uppercase mt-1">
           {restaurant.city}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Paste area */}
-        <div className="bg-white rounded-xl border border-slate-200 p-4">
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
+        <div className="bg-white rounded-xl border border-edge p-4 shadow-sm">
+          <label className="block font-mono text-[10px] tracking-[0.18em] text-ink-dim uppercase mb-2 font-medium">
             Paste transcript
           </label>
           <textarea
             value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-              setFile(null);
-            }}
+            onChange={(e) => { setText(e.target.value); setFile(null); }}
             placeholder="Paste your call transcript here..."
             rows={10}
-            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent text-slate-700 placeholder-slate-400"
+            className="w-full px-3 py-2.5 text-sm bg-paper border border-edge rounded-lg text-ink placeholder-ink-faint resize-y focus:outline-none focus:ring-2 focus:ring-flame/25 focus:border-flame/50 transition-colors leading-relaxed"
           />
         </div>
 
-        {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="flex-1 border-t border-slate-200" />
-          <span className="text-xs text-slate-400 font-semibold uppercase tracking-wide">or</span>
-          <div className="flex-1 border-t border-slate-200" />
+          <div className="flex-1 border-t border-edge" />
+          <span className="text-xs text-ink-faint font-semibold uppercase tracking-wide">or</span>
+          <div className="flex-1 border-t border-edge" />
         </div>
 
-        {/* File upload */}
         <div
           onClick={() => fileRef.current?.click()}
-          className="bg-white rounded-xl border-2 border-dashed border-slate-200 p-6 text-center cursor-pointer hover:border-[#1e3a5f] hover:bg-slate-50 transition-colors"
+          className="bg-white rounded-xl border-2 border-dashed border-edge p-6 text-center cursor-pointer hover:border-flame/40 hover:bg-flame-dim transition-colors shadow-sm"
         >
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".txt,.pdf"
-            onChange={handleFileChange}
-            className="hidden"
-          />
+          <input ref={fileRef} type="file" accept=".txt,.pdf" onChange={handleFileChange} className="hidden" />
           {file ? (
             <div className="space-y-0.5">
-              <p className="text-sm font-semibold text-[#1e3a5f]">{file.name}</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm font-semibold text-ink">{file.name}</p>
+              <p className="font-mono text-[10px] tracking-wider text-ink-dim uppercase">
                 {(file.size / 1024).toFixed(1)} KB · Click to change
               </p>
             </div>
           ) : (
             <div className="space-y-0.5">
-              <p className="text-sm font-semibold text-slate-600">Upload transcript file</p>
-              <p className="text-xs text-slate-400">.txt or .pdf · click to browse</p>
+              <p className="text-sm font-semibold text-ink-dim">Upload transcript file</p>
+              <p className="font-mono text-[10px] tracking-wider text-ink-faint uppercase">.txt or .pdf · click to browse</p>
             </div>
           )}
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">
+          <div className="p-3 bg-ash-dim border border-ash/30 rounded-lg text-sm text-ash">
             {error}
           </div>
         )}
@@ -121,7 +124,8 @@ export default function PostCallEvaluation({ restaurant, onScorecardGenerated }:
         <button
           type="submit"
           disabled={!text.trim() && !file}
-          className="w-full bg-[#1e3a5f] hover:bg-[#2d4f7a] disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-colors"
+          style={{ backgroundColor: "#e87020" }}
+          className="w-full hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold text-sm transition-opacity shadow-sm"
         >
           Score Call
         </button>

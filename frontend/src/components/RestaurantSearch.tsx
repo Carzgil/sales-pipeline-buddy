@@ -38,7 +38,6 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
   useEffect(() => {
     if (!PLACES_KEY || showManual) return;
     if (document.getElementById("gmaps-script")) return;
-
     const script = document.createElement("script");
     script.id = "gmaps-script";
     script.src = `https://maps.googleapis.com/maps/api/js?key=${PLACES_KEY}&libraries=places&loading=async`;
@@ -49,7 +48,6 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
 
   useEffect(() => {
     if (!PLACES_KEY || showManual) return;
-
     const poll = setInterval(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const g = (window as any).google;
@@ -60,7 +58,6 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
       placesServiceRef.current = new g.maps.places.PlacesService(div);
       sessionTokenRef.current = new g.maps.places.AutocompleteSessionToken();
     }, 200);
-
     return () => clearInterval(poll);
   }, [PLACES_KEY, showManual]);
 
@@ -94,20 +91,13 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
     setQuery(prediction.description);
     setPredictions([]);
     setShowDropdown(false);
-
     placesServiceRef.current?.getDetails(
-      {
-        placeId: prediction.place_id,
-        fields: ["name", "address_components", "website"],
-        sessionToken: sessionTokenRef.current,
-      },
+      { placeId: prediction.place_id, fields: ["name", "address_components", "website"], sessionToken: sessionTokenRef.current },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (place: any, status: string) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const g = (window as any).google;
-        // Reset session token after getDetails closes the session
         sessionTokenRef.current = new g.maps.places.AutocompleteSessionToken();
-
         if (status !== "OK" || !place) {
           setError("Could not load place details — try again or enter manually.");
           return;
@@ -116,9 +106,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
         const comps: any[] = place.address_components ?? [];
         const cityComp = comps.find((c) => c.types.includes("locality"));
         const stateComp = comps.find((c) => c.types.includes("administrative_area_level_1"));
-        const resolvedCity = [cityComp?.long_name, stateComp?.short_name]
-          .filter(Boolean)
-          .join(", ");
+        const resolvedCity = [cityComp?.long_name, stateComp?.short_name].filter(Boolean).join(", ");
         submitBrief({ name: place.name, city: resolvedCity, website_url: place.website });
       }
     );
@@ -161,132 +149,135 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[420px] gap-6">
-        <div className="w-12 h-12 border-4 border-[#1e3a5f] border-t-transparent rounded-full animate-spin" />
-        <div className="text-center">
-          <p className="text-lg font-semibold text-slate-700">{loadingMsg}</p>
-          <p className="text-sm text-slate-400 mt-1">Takes about 15 seconds</p>
+      <div className="flex flex-col items-center justify-center min-h-[480px] gap-5">
+        <div className="text-center space-y-4 animate-fade-up">
+          <p className="font-mono text-xs tracking-[0.18em] text-ink-dim uppercase">
+            {loadingMsg}
+          </p>
+          <div className="flex gap-2 justify-center">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full bg-flame animate-dot-pulse"
+                style={{ animationDelay: `${i * 220}ms` }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
+  const inputClass =
+    "w-full px-4 py-3 bg-white border border-edge rounded-lg text-ink text-sm placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-flame/25 focus:border-flame/50 transition-colors";
+
+  const labelClass =
+    "block font-mono text-[10px] tracking-[0.18em] text-ink-dim uppercase mb-1.5";
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[420px]">
+    <div className="flex flex-col items-center justify-center min-h-[480px]">
       <div className="w-full max-w-lg">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">Prepare for your call</h2>
-          <p className="text-slate-500 text-sm">
-            Search for a restaurant to generate your pre-call intelligence brief
-          </p>
+        {/* Eyebrow */}
+        <p className="font-mono text-[10px] tracking-[0.25em] text-flame uppercase text-center mb-2 animate-fade-up">
+          Intelligence Brief
+        </p>
+
+        {/* Hero heading */}
+        <h2
+          className="font-serif italic text-5xl text-ink text-center mb-10 animate-fade-up"
+          style={{ animationDelay: "60ms", fontWeight: 300 }}
+        >
+          Prepare for your call
+        </h2>
+
+        {/* Search / manual */}
+        <div className="animate-fade-up" style={{ animationDelay: "120ms" }}>
+          {!showManual ? (
+            <div className="space-y-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => handleQueryChange(e.target.value)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                  onFocus={() => predictions.length > 0 && setShowDropdown(true)}
+                  autoComplete="off"
+                  placeholder="Search for a restaurant..."
+                  className={inputClass}
+                />
+                {showDropdown && predictions.length > 0 && (
+                  <ul className="absolute z-50 w-full mt-1 bg-white border border-edge rounded-lg shadow-lg overflow-hidden">
+                    {predictions.map((p) => (
+                      <li
+                        key={p.place_id}
+                        onMouseDown={() => handleSelectPrediction(p)}
+                        className="px-4 py-3 hover:bg-paper cursor-pointer text-sm border-b border-edge last:border-0 transition-colors"
+                      >
+                        <span className="font-medium text-ink">
+                          {p.structured_formatting?.main_text}
+                        </span>
+                        <span className="text-ink-dim ml-1 text-xs">
+                          {p.structured_formatting?.secondary_text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <button
+                onClick={() => setShowManual(true)}
+                className="w-full text-sm text-ink-dim hover:text-ink py-1 transition-colors"
+              >
+                Can't find it? Enter manually →
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleManualSubmit} className="space-y-4">
+              <div>
+                <label className={labelClass}>Restaurant name</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Tony's Pizza" required className={inputClass} />
+              </div>
+              <div>
+                <label className={labelClass}>City</label>
+                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="e.g. Austin, TX" required className={inputClass} />
+              </div>
+              <div>
+                <label className={labelClass}>
+                  Website URL{" "}
+                  <span className="text-ink-faint normal-case tracking-normal font-sans" style={{ fontSize: "0.7rem" }}>
+                    (optional — improves delivery detection)
+                  </span>
+                </label>
+                <input type="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://..." className={inputClass} />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-flame hover:bg-flame/90 text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors shadow-sm"
+              >
+                Generate Pre-Call Brief
+              </button>
+              {PLACES_KEY && (
+                <button type="button" onClick={() => setShowManual(false)} className="w-full text-sm text-ink-dim hover:text-ink py-1 transition-colors">
+                  ← Back to search
+                </button>
+              )}
+            </form>
+          )}
         </div>
 
-        {!showManual ? (
-          <div className="space-y-3">
-            <div className="relative">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => handleQueryChange(e.target.value)}
-                onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-                onFocus={() => predictions.length > 0 && setShowDropdown(true)}
-                autoComplete="off"
-                placeholder="Search for a restaurant..."
-                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
-              />
-              {showDropdown && predictions.length > 0 && (
-                <ul className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
-                  {predictions.map((p) => (
-                    <li
-                      key={p.place_id}
-                      onMouseDown={() => handleSelectPrediction(p)}
-                      className="px-4 py-3 hover:bg-slate-50 cursor-pointer text-sm border-b border-slate-100 last:border-0"
-                    >
-                      <span className="font-medium text-slate-800">
-                        {p.structured_formatting?.main_text}
-                      </span>
-                      <span className="text-slate-400 ml-1">
-                        {p.structured_formatting?.secondary_text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <button
-              onClick={() => setShowManual(true)}
-              className="w-full text-sm text-slate-400 hover:text-slate-600 py-1 transition-colors"
-            >
-              Can't find it? Enter manually →
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleManualSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Restaurant name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Tony's Pizza"
-                required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="e.g. Austin, TX"
-                required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Website URL{" "}
-                <span className="text-slate-400 font-normal">(optional — improves delivery detection)</span>
-              </label>
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://..."
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent bg-white"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-[#1e3a5f] hover:bg-[#2d4f7a] text-white py-3 px-6 rounded-xl font-semibold transition-colors"
-            >
-              Generate Pre-Call Brief
-            </button>
-            {PLACES_KEY && (
-              <button
-                type="button"
-                onClick={() => setShowManual(false)}
-                className="w-full text-sm text-slate-400 hover:text-slate-600 py-1 transition-colors"
-              >
-                ← Back to search
-              </button>
-            )}
-          </form>
-        )}
-
+        {/* Error */}
         {error && (
           <div
-            className={`mt-4 p-3 border rounded-xl text-sm ${
+            className={`mt-5 p-3 border rounded-lg text-sm animate-fade-up ${
               notRestaurant
-                ? "bg-amber-50 border-amber-200 text-amber-800"
-                : "bg-red-50 border-red-200 text-red-600"
+                ? "bg-sand-dim border-sand/30 text-sand"
+                : "bg-ash-dim border-ash/30 text-ash"
             }`}
           >
-            {notRestaurant ? "🔍 " : ""}{error}
+            <span className="font-mono text-[10px] tracking-wider uppercase mr-2">
+              {notRestaurant ? "Not found" : "Error"}
+            </span>
+            {error}
           </div>
         )}
       </div>

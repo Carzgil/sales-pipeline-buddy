@@ -135,11 +135,28 @@ def _determine_fit_signal(
     return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify ordering setup in discovery"
 
 
-def _infer_cuisine(name: str, google_types: list | None = None) -> Optional[str]:
+def _infer_cuisine(
+    name: str,
+    google_types: list | None = None,
+    editorial_summary: str | None = None,
+) -> Optional[str]:
+    # 1. Google Places types — most precise when available
     if google_types:
         for gt in google_types:
             if gt in CUISINE_TYPE_MAP:
                 return CUISINE_TYPE_MAP[gt]
+
+    # 2. Editorial summary text e.g. "Vietnamese restaurant serving banh mi sandwiches"
+    if editorial_summary:
+        sl = editorial_summary.lower()
+        for cuisine in CUISINE_TYPE_MAP.values():
+            if cuisine.lower() in sl:
+                return cuisine
+        for kw, cuisine in NAME_CUISINE_KEYWORDS.items():
+            if kw in sl:
+                return cuisine
+
+    # 3. Restaurant name keywords as last resort
     name_lower = name.lower()
     for kw, cuisine in NAME_CUISINE_KEYWORDS.items():
         if kw in name_lower:
@@ -201,14 +218,57 @@ def _get_places_info(name: str, city: str) -> dict:
         if place_id:
             detail = httpx.get(
                 "https://maps.googleapis.com/maps/api/place/details/json",
-                params={"place_id": place_id, "fields": "website", "key": api_key},
+                params={"place_id": place_id, "fields": "website,types,editorial_summary", "key": api_key},
                 timeout=6,
                 headers=HEADERS,
             ).json().get("result", {})
             info["website"] = detail.get("website")
+            # Detail types are often more specific than textsearch types
+            if detail.get("types"):
+                info["types"] = detail["types"]
+            # editorial_summary.overview contains plain-text cuisine info
+            # e.g. "Vietnamese restaurant serving banh mi..." — reliable fallback
+            overview = detail.get("editorial_summary", {}).get("overview", "")
+            if overview:
+                info["editorial_summary"] = overview
         return info
     except Exception:
         return {}
+
+
+def _find_competitors_via_places(name: str, city: str, cuisine: Optional[str] = None) -> list:
+    """
+    Find actual restaurant competitors using Google Places Text Search.
+    Returns real restaurant listings — not editorial list pages.
+    """
+    api_key = os.environ.get("GOOGLE_PLACES_API_KEY")
+    if not api_key:
+        return []
+    query = f"{cuisine} restaurants {city}" if cuisine else f"restaurants {city}"
+    try:
+        resp = httpx.get(
+            "https://maps.googleapis.com/maps/api/place/textsearch/json",
+            params={"query": query, "type": "restaurant", "key": api_key},
+            timeout=6,
+            headers=HEADERS,
+        )
+        results = resp.json().get("results", [])
+        name_lower = name.lower()
+        competitors = []
+        for place in results:
+            place_name = place.get("name", "")
+            if not place_name or name_lower in place_name.lower():
+                continue
+            competitors.append({
+                "name": place_name,
+                "review_count": place.get("user_ratings_total"),
+                "rating": place.get("rating"),
+            })
+            if len(competitors) >= 3:
+                break
+        return competitors
+    except Exception:
+        return []
 
 
 def _validate_is_restaurant_sync(name: str, city: str) -> tuple[bool, str]:
@@ -329,7 +389,13 @@ EDITORIAL_TITLE_PATTERNS = [
 ]
 
 def _find_competitors(name: str, city: str, cuisine: Optional[str] = None) -> list:
-    """Find local competitors using Brave Search, filtered to actual restaurants."""
+    """Find local competitors. Uses Google Places (actual restaurant listings) as primary
+    source and falls back to Brave Search when Places is not configured."""
+    places_results = _find_competitors_via_places(name, city, cuisine)
+    if places_results:
+        return places_results
+
+    # Brave Search fallback — apply editorial filtering since web results include list pages
     query = f"best {cuisine} restaurants {city}" if cuisine else f"best restaurants {city}"
     results = _brave_search(query, max_results=15)
 
@@ -457,8 +523,12 @@ async def search_restaurant_intelligence(
     places_info = await asyncio.to_thread(_get_places_info, name, city)
     effective_url = website_url or places_info.get("website")
 
-    # Cuisine inferred from Places types first, restaurant name as fallback
-    cuisine = _infer_cuisine(name, places_info.get("types", []))
+    # Cuisine: Places types → editorial summary → restaurant name keywords
+    cuisine = _infer_cuisine(
+        name,
+        places_info.get("types", []),
+        places_info.get("editorial_summary"),
+    )
 
     # --- Delivery platforms ---
     if effective_url:

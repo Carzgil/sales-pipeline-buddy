@@ -1,0 +1,209 @@
+================================================================================
+CALL RECORD: call_108
+OUTCOME: NOT BOOKED (Lost)
+================================================================================
+
+RESTAURANT:     Carolina's Mexican Food
+CITY / STATE:   Phoenix, AZ
+CUISINE TYPE:   Mexican (listed as American in CRM)
+BUSINESS TYPE:  Quick Service
+LOCATIONS:      1
+WEBSITE:        carolinasmexicanfood.com
+CALL DURATION:  6 minutes
+REP ID:         rep_13
+
+================================================================================
+WHY THIS CALL WAS LOST — COACHING NOTES
+================================================================================
+
+This was a warm re-engagement call to a prospect who had submitted a grader
+report in December but never heard back. The rep had real SEO data and used
+it in the conversation, which is a strength. However, several avoidable gaps
+prevented the booking.
+
+1. WRONG WEBSITE REFERENCED IN PITCH: Carolina's Mexican Food has a clear
+   brand identity and its own domain. Mid-call, the rep referenced the website
+   as "cheeseandstuffedeli.com," which is an entirely different restaurant.
+   This was likely a data mix-up and immediately undermined the rep's claim
+   of having done specific research on this restaurant.
+
+2. NO KNOWLEDGE OF THE PROSPECT'S CURRENT SOLUTION: The prospect revealed they
+   already had a web person working on their site. A simple check of the
+   restaurant's website before the call would have shown the current state of
+   their web presence and whether a web team was already active. The rep had no
+   response to this objection and was caught flat-footed.
+
+3. CORRECT CUISINE NOT CONFIRMED: Carolina's Mexican Food is a landmark Phoenix
+   Mexican food restaurant, famous in the local market. The rep referenced
+   menu items like "cactus jack" and "grilled cheese" as generic examples,
+   which are not relevant to a Mexican fast-casual restaurant. Knowing the
+   menu before calling allows for more resonant examples.
+
+4. SOFT CLOSE THEN GAVE UP TOO EASILY: The prospect said they were busy and
+   wanted to push things down the road. The rep accepted this almost
+   immediately, promised to call back "next Friday," and ended the call with
+   no committed meeting. The rep did not connect the SEO opportunity they had
+   clearly articulated to an urgent reason to act.
+
+5. APOLOGY FOR DELAYED OUTREACH: The rep apologized for no one reaching out
+   since December. While honest, this acknowledged an organizational failure
+   without offering any value to compensate for it, further weakening the rep's
+   position.
+
+KEY LESSON: Confirming you have the right website and the right menu on screen
+before referencing either is non-negotiable. When a prospect says they have a
+web person, the prepared rep has a ready answer that acknowledges that and
+explains how Owner.com is different and complementary.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+rep_13: Hey the prospect, how's it going?
+
+the prospect (rest_024): Hello? It's going.
+
+rep_13: I'm happy to hear it. I'm happy to hear it. This is rep_13 Kraft.
+I know you reached out to my company, Owner.com, back in December. I just
+wanted to do a friendly check in to see how things are going.
+
+the prospect (rest_024): Yeah. Oh, yeah. Yes. Remind me what you guys do.
+
+rep_13: Yeah, of course. Yeah, no worries. So basically our main focus is
+setting up your website and app to drive conversion. So obviously setting up
+to drive SEO optimization. I'm not sure if you've heard of that. So search
+engine, setting up the website to basically tell Google, hey, this is the kind
+of food that we serve and this is the regions that we serve. So like for you
+guys at this current moment, you're a top result if I look near North Central
+Avenue and like Pasadena Avenue, right? As soon as I go a little farther out
+and we're looking near like rep_06 Villa, Central Park North, Handel Villa.
+Pearson Place, like once you go out a mile from where you currently are, it's
+very difficult to show up on Google.
+
+the prospect (rest_024): I have, yeah.
+
+rep_13: And so that's the thing, like you guys have the reviews, just Google
+wouldn't actually know based off of how your website's currently set up,
+wouldn't know that you serve those locations. It would just be like,
+
+the prospect (rest_024): Hmm.
+
+rep_13: oh,
+
+the prospect (rest_024): Yeah.
+
+rep_13: you know, if someone's within a mile of your current location, yeah,
+we'll show them up. If not, we don't know that they serve these other locations
+and also making sure that Google knows the specific kind of foods you serve,
+right? So, Hey, we serve the best cactus jack. the best um best sobs the best
+grilled cheese whatever it is right that's the big focus um and it's making
+sure that when customers come to you they're not just coming to your website
+and leaving they're coming and actually ordering right so like what i can see
+on my end is you guys have actually had your monthly visits going up fairly
+
+the prospect (rest_024): Yeah.
+
+rep_13: steadily so like back in november you had um 1700 monthly visits to
+your website and in january you had 2200 so that's pretty good um the main
+issue is just customers are the average visit on your website is about 35
+seconds which the majority of the time isn't really enough time to pick what
+you want and actually order it and part of that is because 35 seconds doesn't
+include when people are redirected to clover right that only just that only
+tracks whether on your website and so main main focus is like we want to set
+up the website and the app just with your domain. So cheeseandstuffedeli.com,
+that's where we'd set up the website. So we'd build on your domain, your
+domain's still yours. And we'd have everybody come to your website and they
+order on your website. They would be brought to a separate Clover tab.
+
+the prospect (rest_024): Oh, interesting. Okay.
+
+rep_13: Clover could still be the processor because we fully integrate with
+Clover.
+
+the prospect (rest_024): Yeah. Yeah.
+
+rep_13: Because like right now,
+
+the prospect (rest_024): Interesting.
+
+rep_13: when customers go to actually order, they're spending their time on the
+Clover domain. And so Clover gets that credibility with Google and you guys
+don't. And we want to make sure that you guys are getting all that credibility.
+So that's, I'd say, the big focus. That's really where we stand out and drive
+results from our customers and the competitors because we have a 10% to 15%
+conversion rate. So let's say every 100 people that come on your website, we're
+able to convert 10 to 15 of them, whereas the industry average, including
+Clover, is about 1% to 5%. So you'd expect every 100 customers, maybe 5 people
+check out.
+
+the prospect (rest_024): Juice, yeah.
+
+rep_13: So it's really just making sure that they check out, right? Like, don't
+just want them to come to your website and leave, right, at the end of the day.
+
+the prospect (rest_024): Right, right.
+
+rep_13: But I know, yeah, you submitted the grader report back in December.
+I'm so sorry that nobody's reached out in that time period. Really, I just
+wanted to kind of call, see how things were going, and actually see if you had
+any time tomorrow or on Monday to actually sit down, do a meeting with us. We
+can show you what we do and see if there's any interest.
+
+the prospect (rest_024): Um, yeah, I just, I, I don't think I have a web guy
+and I tell him all this stuff and he's supposed to be working on it. Um, I
+think I'm good for now. I mean, I know it's not perfect, but, um, I just have
+so many other things I'm working on right now. So I'm going to say no for now,
+
+rep_13: Okay.
+
+the prospect (rest_024): but, um, I rep_14 keep you in mind.
+
+rep_13: No, of course. That's all I can ask for, the prospect. No, truly,
+I really appreciate, obviously, speaking with you. At the end of the day, when
+I say... do a meeting like i don't i don't mean like i want you to like sign up
+with us on the spot more of just want to like you know i'm saying a little bit
+on the phone it's easier to show you we try and teach it more as like a
+teaching lesson right so i'll show you everything and you can try and go to
+your web guy and he can try and implement it himself i'm happy with that i just
+want to make sure that you're not missing out on these sales with your current
+setup just because of how it's set up right because i used to work in the
+restaurant industry that's why you know myself i
+
+the prospect (rest_024): Yeah.
+
+rep_13: That's why I hope you can kind of hear some of the emotion across the
+phone.
+
+the prospect (rest_024): Yeah.
+
+rep_13: Because I truly believe in what we do,
+
+the prospect (rest_024): Yeah.
+
+rep_13: and I've truly been able to see the results.
+
+the prospect (rest_024): Okay. Well, let me, I can't meet tomorrow and I don't
+know about next week. So let me just keep your information and. I'm just going
+to push it down the road a little bit. Okay. All right.
+
+rep_13: Of course. Yeah, what I'll do actually is I'll put it in my calendar.
+I'll give you a call next Friday, see where things are at, give you some time.
+And then we can see if we can go from there, okay?
+
+the prospect (rest_024): That sounds fine.
+
+rep_13: Do you need any more information about us? I'd be happy to send over
+an email with a little bit more idea of what we do in the meantime. Perfect.
+What would be the best email that you want me to send it over to?
+
+the prospect (rest_024): Sure. A-Z-Cheese. nstuff at gmail.com.
+
+rep_13: Okay, perfect. I'm going to send it over. It's going to come from
+rep_13.rep_13.owner.com, okay?
+
+the prospect (rest_024): Okay. Sounds good.
+
+rep_13: Okay. Thank you so much, the prospect. I hope you have a nice night.
+Bye-bye.
+
+the prospect (rest_024): All right. Thank you, YouTube.

@@ -5,6 +5,12 @@ import RestaurantSearch from "./components/RestaurantSearch";
 import ScorecardView from "./components/ScorecardView";
 import type { AppView, BriefData, RestaurantInfo, ScorecardData } from "./types";
 
+const STEPS = [
+  { key: "brief", label: "Pre-Call Brief", active: ["brief", "postcall", "scorecard"] },
+  { key: "postcall", label: "Post-Call Eval", active: ["postcall", "scorecard"] },
+  { key: "scorecard", label: "Scorecard", active: ["scorecard"] },
+];
+
 export default function App() {
   const [view, setView] = useState<AppView>("search");
   const [restaurant, setRestaurant] = useState<RestaurantInfo | null>(null);
@@ -29,30 +35,28 @@ export default function App() {
     setScorecard(null);
   };
 
-  const steps = [
-    { key: "brief", label: "1. Pre-Call Brief", active: ["brief", "postcall", "scorecard"] },
-    { key: "postcall", label: "2. Post-Call Evaluation", active: ["postcall", "scorecard"] },
-    { key: "scorecard", label: "3. Scorecard", active: ["scorecard"] },
-  ];
-
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-[#1e3a5f] text-white shadow-md">
+    <div className="min-h-screen bg-paper text-ink">
+      {/* Header — navy, same familiar Owner brand */}
+      <header className="bg-navy shadow-sm">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center font-bold text-sm tracking-tight">
+            <div className="w-7 h-7 bg-flame rounded-sm flex items-center justify-center font-bold text-sm text-white font-mono">
               O
             </div>
             <div>
-              <h1 className="text-base font-semibold leading-tight">Sales Call Buddy</h1>
-              <p className="text-xs text-blue-200 leading-tight">Owner.com · Internal Tool</p>
+              <h1 className="text-sm font-semibold text-white leading-tight tracking-wide">
+                Sales Call Buddy
+              </h1>
+              <p className="font-mono text-[10px] tracking-[0.15em] text-white/50 uppercase leading-tight">
+                Owner.com · Internal Tool
+              </p>
             </div>
           </div>
           {view !== "search" && (
             <button
               onClick={handleReset}
-              className="text-sm text-blue-200 hover:text-white transition-colors"
+              className="text-sm text-white hover:text-white/80 transition-colors font-semibold"
             >
               ← New Search
             </button>
@@ -60,30 +64,28 @@ export default function App() {
         </div>
       </header>
 
-      {/* Progress bar */}
+      {/* Step progress */}
       {view !== "search" && (
-        <div className="bg-white border-b border-slate-200">
-          <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-3 text-sm">
-            {steps.map((step, i) => (
-              <span key={step.key} className="flex items-center gap-3">
-                {i > 0 && <span className="text-slate-300">→</span>}
+        <div className="bg-white border-b border-edge">
+          <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-3">
+            {STEPS.map((step, i) => (
+              <div key={step.key} className="flex items-center gap-3">
+                {i > 0 && <span className="text-edge font-mono text-xs">→</span>}
                 <span
-                  className={
-                    step.active.includes(view)
-                      ? "font-semibold text-[#1e3a5f]"
-                      : "text-slate-400"
-                  }
+                  className={`font-mono text-[10px] tracking-[0.15em] uppercase font-medium transition-colors ${
+                    step.active.includes(view) ? "text-flame" : "text-ink-faint"
+                  }`}
                 >
-                  {step.label}
+                  {i + 1}. {step.label}
                 </span>
-              </span>
+              </div>
             ))}
           </div>
         </div>
       )}
 
       {/* Content */}
-      <main className="max-w-3xl mx-auto px-6 py-8">
+      <main className="max-w-3xl mx-auto px-6 py-10">
         {view === "search" && (
           <RestaurantSearch onBriefGenerated={handleBriefGenerated} />
         )}

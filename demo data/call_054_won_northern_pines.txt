@@ -1,0 +1,184 @@
+================================================================================
+CALL RECORD: call_054
+OUTCOME: DEMO BOOKED (Won)
+================================================================================
+
+RESTAURANT:     The Northern Pines Restaurant
+CITY / STATE:   Flagstaff, AZ
+CUISINE TYPE:   American
+BUSINESS TYPE:  Full Service
+LOCATIONS:      23
+WEBSITE:        thenorthernpines.com
+CALL DURATION:  14 minutes
+REP ID:         rep_11
+
+================================================================================
+WHY THIS CALL WON — COACHING NOTES
+================================================================================
+
+This call demonstrates several key behaviors that distinguish a well-prepared
+rep from one who is winging it. The prospect (Mike) came in with immediate
+questions, and the rep handled them confidently because they had done the work
+ahead of time.
+
+1. KNEW THE EXISTING TECH STACK: The rep immediately acknowledged that the
+   restaurant was using Pop Menu for their website. Rather than dismissing the
+   current provider or overselling Owner.com as a blanket replacement, the rep
+   explained the difference in approach clearly and acknowledged Pop Menu's
+   strengths, which built trust and credibility.
+
+2. KNEW THE THIRD-PARTY SETUP: The rep confirmed awareness of Uber Eats and
+   DoorDash being active. This was not a guess. The rep referenced it as
+   established fact and used it to anchor the conversation around commission
+   savings.
+
+3. USED REAL SEO DATA FOR THIS SPECIFIC RESTAURANT: The rep referenced an
+   actual online health score (59), the restaurant's current Google Map ranking
+   (first position for some queries), its organic ranking drop (fourth position
+   for others), and specific competitors by name: Mountaineer Coffee, Legends
+   Academy Cafe, and the Lazy Maid Creperie. The rep also referenced a specific
+   menu item (Eggs Benedict) to demonstrate menu-level familiarity.
+
+4. REFERENCED A RELEVANT COMPARABLE: The rep named Brooklyn's Pizzeria as a
+   comparable customer who had started with Pop Menu, had a similar multi-
+   location setup, and achieved results with Owner.com. This was a directly
+   relevant social proof reference, not a generic case study.
+
+5. ACKNOWLEDGED THE MULTI-LOCATION COMPLEXITY HONESTLY: When the rep learned
+   the restaurant had 16 (later mentioned as 23) locations, they immediately
+   acknowledged that pricing would be a special case and that the final number
+   was above their pay grade. This honesty kept the conversation moving rather
+   than derailing into a pricing argument.
+
+6. CLEAR VALUE FRAMING: The rep used visibility, conversion, and retention as
+   a consistent framework and explained each with specifics tied to what they
+   had found on this restaurant's actual data, not generic talking points.
+
+7. CONCRETE NEXT STEP WITH SPECIALIST: Rather than trying to close on the spot,
+   the rep promised to follow up with specific examples and a call on Friday,
+   leaving the door wide open while maintaining momentum.
+
+KEY LESSON: Research the POS/website provider, the third-party delivery setup,
+run the SEO grader before calling, identify two or three specific competitors
+that are outranking the prospect, and have at least one comparable customer
+reference ready. All of these were present in this call.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+rep_11: Walmart and clinic tomorrow?
+rep_11: Hey there, I'm looking for Mike, please. Sure, yeah.
+
+rep_11: Mike, my friend, it is me. Hello. Yes, sir. Do you want me to call you
+yourself? Or? Okay. Amazing. Yes. Go for it. Yeah. Yeah. Whoa. Of course.
+Amazing. I'm glad. Yeah. Yeah. Great. Great question. I like how you went
+headfirst. So I know you have Uber Eats and DoorDash. You have quite the setup.
+You also have like a really nice website. So when we do meet, whenever we
+decide to, we're going to be focused on three main things that we're going to
+be showing you how we've done for other restaurants and all of that, right?
+So visibility, conversion, and retention. That's how I like to put it. So
+visibility, like it's pretty obvious that Breakfastation makes great food. Like
+you have quite the menu. You have, you know, your Uber Eats and DoorDash, but
+how do we make sure that the people beyond a certain range and people like
+beyond your regular customer base are actually finding you right. So the goal
+of this would be to increase your website sales. And for that, we make sure
+that your website ranks at the first one or two Google search results for every
+single menu item that you have. Right. And right off the bat, like I know
+you're with Pop Menu. I know Pop Menu is uber customizable. They have all their
+it's a really aesthetically pleasing website. They give you all of these
+options. And if it's customization, it is what you're looking for. We may not
+be the best fit. coming on this because our customers like they usually come to
+us because they want to increase their website sales and move away from from
+uber eats and doordash uh yeah you were gonna say that's right so google has a
+very specific algorithm for how it likes its websites and kind of based off of
+what how it ranks your website it has a lot to do like SEO alternative text
+H1 tags and all that yeah So I ran an online health report on the rest_012
+because I'm not aware of any of your other locations And I do see that let me
+just pull up these reports here hang on so basically we build you a website
+That's tried and tested right and it's going to show you rank up top for like
+every single menu item that you have like people could be driving past out
+yeah yeah okay yeah of course no i totally get it yeah
+
+rep_11: Yeah, yeah, yeah, of course. So the short answer would be no, because
+since we lean so heavily on SEO optimization and Google Business Profile, like
+Google Maps, SEO ranking, you would need to have access to your... Google
+business profile as well as your domain. Hello? Hello? Hello? Oh, yeah, you're
+back. Hello? Can you hear me? Yeah. You cut out after I stop talking. No
+worries. You were saying? Yeah. Yeah. I know. You lost really short. Yes. And
+it's Bill tried and tested to rank you up, but you would need access to your
+domain and basically be the owner. oh no no two sites is a no-go so pop like
+that hurts your sto yeah yeah yeah of course yeah yeah we wouldn't want you
+paying for like two separate things that that kind of yeah yeah
+
+rep_11: Yeah, yeah, yeah. I'll tell you how we're different than pop menus,
+so maybe you can have more context before you pitch it. Yeah. So you're going
+to be having like an army of SEO people who are going to be monitoring activity
+that comes on your website. They're going to be making changes real time,
+basically making sure that this... person lands on your website becomes a
+first-time customer and then becomes regular yeah absolutely and that's where
+um you know the google search comes in so let me just pull up these health
+reports that i have right so right now your online health grade is 59 in our
+AI grader, right? So if I want to put that into perspective, so somebody types
+in best breakfast in Brooksville. You are the first on Google Map, which is
+great, but you rank fourth on organic search, which is where most people are
+actually looking. And you're kind of losing to Mountaineer Coffee, Legends
+Academy Cafe, and the Lazy Maid Creperie. So these are your biggest
+competitors. And if people are looking for best breakfast in South Brooksville,
+North Brooksville, you don't seem to pop up at all. And going into like the
+specifics, let's say like best Eggs Benedict, because I know you guys have like
+pretty good Eggs Benedict. So you don't rank for those results either, but you
+do rank pretty well on Google Maps. But if you did come up first for both of
+these search results put together for all of these like searches, Yes,
+absolutely. That is what we rep_14 be doing and what our SEO team is dedicated
+to. Yeah, yeah, yeah, of course. Yeah. Yeah. yeah right yes so I would love to
+loop in one of my product specialists and the head of the SEO team that rep_14
+be basically assigned to you if we go ahead with this bit so they're going to
+be more than happy to look at examples of restaurants that we've done this with
+before like Brooklyn's pizzeria and Italian restaurants they're over on Leesburg
+not sure if you know them but they started off with the popmenu yeah they
+started off with popmenu as well very similar setup they have like six locations
+i think um yeah yeah the the current domain that you have right now which is um
+what is it breakfaststationcentral.com right so you're gonna have same domain
+the exact same domain and it's not going to say owner anywhere and you're going
+to have access to like the dashboard you're going to have access to all the
+data that we're collecting and basically when they come in through door dash
+and uber eats like these guys are just a number pretty much you don't know who
+your repeat guys are you don't know what time of the day are they ordering all
+of that so you're going to have access to all of that and you can even leverage
+it for your like own marketing efforts like if that's something that you guys
+are doing as well
+
+rep_11: Of course, yeah. So on the website, I think we mentioned we're a 0%
+commission model. So if you're looking at, you said 16 locations, right? So
+that's going to be a very special case. So for your first location, you're
+going to be paying $599, right? $599. And for any location on top of that,
+like any add-on location, it's going to be like half of that. So like $300.
+And that's the only thing we take from you. pretty much and it's a zero percent
+commission model yeah ah so that would be above my pay grade because you guys
+are a pretty big establishment but there is wiggle room for the prospect yeah
+yeah
+
+rep_11: Yeah, of course. Yeah. Yeah. Yeah, yeah, I totally get it. And, you
+know, as far as pricing is concerned, there's definitely a wiggle room based
+off of like, what it is you guys are looking for, and all of that, that we'll
+be going over when we meet, right? But yeah, exactly. And then, yeah, and my
+like, my goal really here is like, I think both me and my That's right. The
+goal is to basically avoid you from paying like 20, 30% in commissions and
+maybe like 90, 95% of all your orders coming in directly to your website. So
+that way they're customers of the rest_012 and not just a customer that comes
+into Uber Eats and DoorDash. Does that make sense? Yeah, absolutely. And from
+the DoorDash Uber Eats, they're going to be redirected to your website. And
+when they're on your website, we're going to be using email marketing, text
+marketing, and basically prompts to make sure that next time they order
+directly from your app, which is also something that's included. Yeah, yeah.
+No, I completely get what you're talking about. Yeah. So, again, there are
+always, like, special cases. No, no. I'm not going to say yes or no. Of
+course, ideal situation would be to onboard all of it. Yeah. It would hurt your
+SEO. It would hurt your... traffic because Google doesn't like it if the same
+domain or like the same restaurant has multiple like domain ah Or at least
+three to four sure yeah sure
+
+rep_11: Yeah, I really appreciate that. I'll text you. You have my number.
+I'll send you some examples, just stuff that I come across as and when, and
+I'll call you Friday, okay? Awesome. Thank you, Mike. Take care.

@@ -97,7 +97,10 @@ async def generate_brief(restaurant_name: str, city: str, intelligence_data: dic
     else:
         category_rank_str = "Category search not performed (cuisine unknown)"
 
-    competitors_str = json.dumps(competitors) if competitors else "None found — search returned editorial list pages or no matching restaurant results"
+    competitors_str = (
+        json.dumps(competitors, indent=2) if competitors
+        else "None found — search returned no matching restaurant results"
+    )
     platforms_str = ", ".join(platforms) if platforms else "None detected"
 
     user_prompt = f"""Generate a pre-call brief for:

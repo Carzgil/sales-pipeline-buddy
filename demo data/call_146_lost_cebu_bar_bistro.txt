@@ -1,0 +1,232 @@
+================================================================================
+CALL RECORD: call_146
+OUTCOME: NOT BOOKED (Lost)
+================================================================================
+
+RESTAURANT:     Cebu Bar & Bistro
+CITY / STATE:   Brooklyn, NY
+CUISINE TYPE:  
+BUSINESS TYPE:  Full Service
+LOCATIONS:      1
+WEBSITE:        cebubrooklyn.com
+CALL DURATION:  7 minutes
+REP ID:         rep_08
+
+================================================================================
+WHY THIS CALL WAS LOST — COACHING NOTES
+================================================================================
+
+The rep reached the right person (Kian Yong) but made a series of factual
+errors that revealed a lack of basic research into the restaurant.
+
+1. WRONG CUISINE / WRONG SEO FRAMING: Cebu Bar & Bistro is a Filipino
+   restaurant in Brooklyn. The rep opened by saying they were researching how
+   the restaurant ranks for "best ramen near me." Cebu does not serve ramen.
+   This immediately undermined the rep's credibility as someone who had
+   "done research."
+
+2. WRONG GEOGRAPHY: The rep mentioned ranking for "best ramen in Azusa or
+   Kavina," which are cities in California. Cebu is in Brooklyn, NY. The rep
+   was clearly looking at data for a completely different restaurant.
+
+3. ASSUMED THIRD-PARTY DEPENDENCY: The rep's entire opening pitch assumed the
+   restaurant was heavily reliant on DoorDash and Uber Eats with high
+   commission rates. In reality, Cebu was not on any third-party platforms at
+   that location. The rep had to improvise mid-call because their core pain
+   point assumption was wrong.
+
+4. PIVOTED WITHOUT ACKNOWLEDGING THE ERROR: When the prospect revealed they
+   had no third-party presence because the restaurant was simply too busy,
+   the rep quickly tried to pivot to a multi-location opportunity, discovering
+   in real time that the restaurant group had 6 locations. All of this
+   information was findable before the call.
+
+5. DECISION MAKER NOT IDENTIFIED: The rep spent the whole call with the
+   wrong person. The actual decision maker was the owner's daughter. A quick
+   Google search of cebubrooklyn.com would have revealed the ownership
+   structure and contact information.
+
+KEY LESSON: Confirm the cuisine type before referencing any SEO search terms.
+Verify the restaurant's current delivery setup. Identify the actual decision
+maker before calling. All three failures here were avoidable with 5 minutes of
+pre-call research.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+rep_08: Hi there, I was calling about rest_111. My name is Subi. Yeah, I was
+trying to get in touch with Kian Yong. Yeah, it's nice to connect with you.
+So I was doing some research into your restaurant here before I called you, but
+I actually help Portillo's Pizza nearby, if you know them. some of their like
+google visibility for their restaurant um so i was doing some research into how
+you guys are currently ranking when customers are searching for like best ramen
+near me um but i was curious like do you guys do very much online ordering
+through toast on the website at the moment I also noticed that you guys are
+using like the third parties like DoorDash, UberEats, ScrubHub. Yeah, where
+would you say most of your orders come from like the third parties or through
+Toast? Third parties, right? So like that was actually very similar to Mike
+over at Portillo's Pizza and he was paying something like 25%. commission. Are
+you guys sort of in the same range? Oh much less, that's good, that's good.
+So you've negotiated that a little bit. Good, good. So what I've helped Mike
+do is three things. So I help him improve like the way his restaurant ranks on
+Google so customers can find him more easily and then once they're on the
+website I do conversion which is getting customers to make orders. and actually
+spend money on your website. And then the other last portion of it is just
+repeat ordering, so getting them to come back. You know, at the moment, I see
+you guys are coming up as like fourth or fifth when people search best ramen in
+Azusa or Kavina, even though your reviews are great. Like you guys have really
+good reviews, really popular restaurant. But unfortunately, because of the way
+your website is set up, Google sometimes thinks that hey maybe we shouldn't
+trust this website because customers are clicking off of it so quickly. So like
+right now when I go to your website and I click order it takes me off of your
+restaurant's website rest_111 to a Toast Tab website. And Toast is great like
+we work we actually partner with Toast but their websites are not designed to
+improve your Google rank. Have you all noticed a big difference in the amount
+of orders when you run ads? Nice, I'm glad. Okay. Yes, exactly. Yeah, that's
+exactly what we do. Correct. So this is exactly what we do. We design your
+website with online ordering that integrates into your POS system. That's
+exactly what we do. And then we also build you a mobile app that also
+integrates into your POS system. So that's not like a DoorDash or Uber Eats
+marketplace. It's your own rest_111 mobile app where customers can one-click
+order on the mobile app. and get zero percent commission delivery so we don't
+charge any commissions we do the delivery at zero percent and then the goal is
+we want to improve your google seo like your search engine optimization through
+all of this customer visits on your website because your website's your website
+is popular you get a lot of visitors like i was checking your web traffic you
+get almost 2,000 monthly visitors. we want to turn those into customers. So
+right now I see you guys have like a 39% bounce rate, which is like obviously
+you're tech savvy, you're aware. We want to lower that number and get those
+customers to stay on your website and make an order. And then also we help the
+customers who are ordering currently on DoorDash and Uber Eats and Grubhub
+paying, in your case, maybe like 10% or 15% to order direct where they'll pay
+0%. structure yeah so we don't have any commissions but for restaurants do you
+guys have more than one location the one so it's 4.99 a month flat fee no
+commission no contract so so correct yeah so that's for the website the mobile
+app the loyalty marketing as well as the 0% commission delivery and we maintain
+your you mean hmm I see well I mean Nice. Yeah. Yeah. Yeah. Yeah. All right.
+Take care. Take care. Bye-bye.
+
+[NOTE: The portion of the call where Kian Yong clarified that Cebu does not
+use any third-party delivery platforms and that the restaurant is too busy to
+need them, and where the rep learned about the 6-location restaurant group
+and the owner's daughter as the decision maker, has been preserved below in
+full from the recording.]
+
+the prospect (rest_070) [identified as Kian Yong / Cebu Bar & Bistro]: No,
+we don't do any third parties at that location at all.
+
+rep_08: At all.
+
+the prospect (rest_070): No. No, not at all. Just through our POS toast online
+ordering.
+
+rep_08: So,
+
+the prospect (rest_070): Yeah.
+
+rep_08: right, through Toast. Yes, I thought this would be relevant because
+you all are with Toast, because we actually partner with them on the POS side.
+But what we do is like the Google rank of the website, improving the way
+customers are able to find you and then offering them that delivery at 0%. Is
+the reason you guys haven't gone with any of the third parties because of the
+fees or is there another reason?
+
+the prospect (rest_070): It's not mainly because of the fees. It's just that
+location is just busy by itself.
+
+rep_08: Oh I see.
+
+the prospect (rest_070): Yeah, it's busy where it sustains itself without even
+having to have third parties. We don't have a ton of staff to be in the back.
+We have enough online orders. Everybody orders through our system. And we have
+to at times even turn that off because it's just... too busy inside.
+
+rep_08: Gotcha. Gotcha.
+
+the prospect (rest_070): Yeah. Yeah.
+
+rep_08: Now that's, I mean, that's still totally understandable. So you say
+this location, are there other Kinlem locations?
+
+the prospect (rest_070): I mean, we have Isan. We have four locations of the
+Isan and we have the one from Kaulao, which is a new brand for us. Yes. We
+have six total.
+
+rep_08: Nice. Wow, that's so impressive. Oh,
+
+the prospect (rest_070): Thank you.
+
+rep_08: I see it on the website here as well. So for that one, the delivery, it
+looks like it links off to like a DoorDash Commerce. Is that right?
+
+the prospect (rest_070): I believe so, yes.
+
+rep_08: Yeah. So when did you guys start with them?
+
+the prospect (rest_070): You know, I'm not the right person to ask.
+
+rep_08: Okay.
+
+the prospect (rest_070): That would be my daughter.
+
+rep_08: Oh, okay. Okay.
+
+the prospect (rest_070): She's the owner, so she would be the one that would,
+
+rep_08: Oh, okay. Okay.
+
+the prospect (rest_070): yeah. Yeah.
+
+rep_08: Yeah. I mean, so... I don't know if you have heard of us or maybe your
+daughter has, but we're called Owner.com. We work with a few POS partners
+because we don't do POS systems. We just do the online portion. But we've been
+helping a lot of restaurants offer 0% commission delivery and increase their
+Google SEO organically. Honestly, it seems like you guys would be such a great
+fit. So I thought I would... you know do a little bit of research i'm a little
+bit of an over preparer i have all these reports for kinlan um but i i i'd love
+to do the same for the other brands and see if it makes sense for you guys but
+um is there a good way to get in touch with your daughter to send some of this
+stuff over yeah
+
+the prospect (rest_070): I see. The best way is just to email her. I mean,
+she's super busy with a family with three kids, growing kids and stuff.
+
+rep_08: wow wow good for her wow
+
+the prospect (rest_070): So yeah, she is, plus restaurants. So she's very busy.
+So the best thing to do. would be to contact her by email. Her email is jenny
+at esonkitchen.com,
+
+rep_08: Okay. So it's J-E-N-N-I.
+
+the prospect (rest_070): J-E-N-N-Y at Eson, I-S-A-R-N, kitchen,
+
+rep_08: Okay.
+
+the prospect (rest_070): K-I-T-C-H-E-N.com.
+
+rep_08: Okay. So Jenny at EsarnKitchen.com.
+
+the prospect (rest_070): That's correct, yes.
+
+rep_08: Awesome. Awesome. Okay. I'll send a quick little intro over and yeah,
+maybe we can try to schedule something with her as well.
+
+the prospect (rest_070): Okay. Sounds good. Yeah.
+
+rep_08: Awesome.
+
+the prospect (rest_070): She'd be the one to reach out to.
+
+rep_08: Awesome. Awesome. Thanks so much for your help.
+
+the prospect (rest_070): Okay. Oh, you're very welcome. You have a good day.
+
+rep_08: You too. Take care now.
+
+the prospect (rest_070): All right. Bye.
+
+rep_08: Bye-bye.
+
+the prospect (rest_070): Bye. You too. Bye.
