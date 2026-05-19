@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { generateBrief } from "../api";
+import { ApiError, generateBrief } from "../api";
 import type { BriefData, RestaurantInfo } from "../types";
 
 interface Props {
@@ -25,6 +25,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
+  const [notRestaurant, setNotRestaurant] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const autocompleteServiceRef = useRef<any>(null);
@@ -130,6 +131,7 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
     }
     setLoading(true);
     setError(null);
+    setNotRestaurant(false);
     setPredictions([]);
     setShowDropdown(false);
 
@@ -145,6 +147,8 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
       onBriefGenerated(info, result.brief);
     } catch (err) {
       clearInterval(interval);
+      const isNotRestaurant = err instanceof ApiError && err.status === 422;
+      setNotRestaurant(isNotRestaurant);
       setError(err instanceof Error ? err.message : "Failed to generate brief. Please try again.");
       setLoading(false);
     }
@@ -275,8 +279,14 @@ export default function RestaurantSearch({ onBriefGenerated }: Props) {
         )}
 
         {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">
-            {error}
+          <div
+            className={`mt-4 p-3 border rounded-xl text-sm ${
+              notRestaurant
+                ? "bg-amber-50 border-amber-200 text-amber-800"
+                : "bg-red-50 border-red-200 text-red-600"
+            }`}
+          >
+            {notRestaurant ? "🔍 " : ""}{error}
           </div>
         )}
       </div>

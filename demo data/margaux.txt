@@ -1,0 +1,20 @@
+Restaurant: Margaux (at The Marlton Hotel)
+Address: 5 W 8th St, New York, NY 10011
+Rep: rep_04
+Duration: 4.2 min
+Outcome: not_booked
+Scores: Fails on specific pre-call research, fails on ICP qualification before features, fails on named local social proof. Passes on contact identity and discovery. This is a structural non-fit call: Margaux is a hotel restaurant with a primarily dine-in, brunch, and bar focus and no meaningful third-party delivery presence. A rep who looked this up for 60 seconds would have deprioritized this lead entirely or at minimum entered the call with a very different angle.
+
+Rep: Hi, could I speak with the manager or owner of Margaux?
+Prospect: This is Sophie, I'm the general manager. What's this about?
+Rep: Hey Sophie, this is Jake from Owner.com. We work with restaurants in New York to help them grow their online ordering and delivery revenue. I wanted to reach out because we've helped a lot of places in the Village increase their monthly revenue pretty significantly and I thought it might be relevant for you guys.
+Prospect: We're actually part of the Marlton Hotel so our setup is a little different than a typical restaurant. Most of our business is hotel guests and neighborhood regulars coming in for brunch or dinner.
+Rep: Totally, that makes sense. Are you doing any delivery right now, through DoorDash or Uber Eats?
+Prospect: No, we do takeout orders but it's pretty minimal. We're really more of a dine-in experience. The hotel keeps us pretty well occupied honestly.
+Rep: Got it. Well what we offer could still be relevant because we also help with online visibility and making sure you're showing up well on Google when people search for restaurants in the area. A lot of places in Greenwich Village are competing for the same search terms.
+Prospect: I mean we get a lot of walk-ins from the hotel and the neighborhood. I'm not sure we're really looking to drive more delivery volume, that's not really our model.
+Rep: Sure, I hear you. We do work with some more dine-in focused spots as well though. Is there anything on the marketing or customer retention side that's a pain point for you right now?
+Prospect: Not really, things are pretty steady. I appreciate the call but I don't think it's the right fit for us.
+Rep: Totally fair. Would it be okay if I sent some information over just so you have it?
+Prospect: Sure, you can send to info at marlton dot com.
+Rep: Perfect. Thanks for your time Sophie, I'll get that over to you.

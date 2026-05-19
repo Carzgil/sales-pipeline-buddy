@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from database import get_recent_briefs, get_recent_scorecards, init_db, save_brief, save_scorecard
 from modules.brief_generator import generate_brief
-from modules.scraper import search_restaurant_intelligence
+from modules.scraper import search_restaurant_intelligence, validate_restaurant
 from modules.transcript_scorer import score_transcript
 
 load_dotenv()
@@ -42,6 +42,10 @@ class BriefRequest(BaseModel):
 
 @app.post("/api/brief")
 async def generate_pre_call_brief(request: BriefRequest):
+    is_restaurant, reason = await validate_restaurant(request.restaurant_name, request.city)
+    if not is_restaurant:
+        raise HTTPException(status_code=422, detail=reason)
+
     try:
         intelligence = await search_restaurant_intelligence(
             name=request.restaurant_name,

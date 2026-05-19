@@ -76,9 +76,10 @@ class TestFitSignal:
         assert sig == "green"
         assert "DoorDash" in reason
 
-    def test_one_platform_is_green(self):
+    def test_one_platform_is_yellow(self):
+        # 1 commission platform = yellow (verify volume) — needs 2+ for confirmed green
         sig, reason = _determine_fit_signal("Maria's Kitchen", False, ["Grubhub"], {})
-        assert sig == "green"
+        assert sig == "yellow"
         assert "Grubhub" in reason
 
     def test_no_data_is_yellow(self):

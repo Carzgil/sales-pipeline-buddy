@@ -25,6 +25,36 @@ HEADERS = {
     )
 }
 
+RESTAURANT_VALIDATION_SITES = [
+    "doordash.com", "ubereats.com", "grubhub.com",
+    "yelp.com", "tripadvisor.com", "opentable.com", "resy.com",
+    "toasttab.com", "chownow.com",
+]
+
+# Maps Google Places cuisine types → human-readable label for search queries
+CUISINE_TYPE_MAP = {
+    "french_restaurant": "French", "italian_restaurant": "Italian",
+    "chinese_restaurant": "Chinese", "japanese_restaurant": "Japanese",
+    "mexican_restaurant": "Mexican", "indian_restaurant": "Indian",
+    "thai_restaurant": "Thai", "american_restaurant": "American",
+    "mediterranean_restaurant": "Mediterranean", "greek_restaurant": "Greek",
+    "spanish_restaurant": "Spanish", "korean_restaurant": "Korean",
+    "vietnamese_restaurant": "Vietnamese", "seafood_restaurant": "seafood",
+    "pizza_restaurant": "pizza", "sushi_restaurant": "sushi",
+    "steak_house": "steakhouse", "burger_restaurant": "burger",
+    "barbecue_restaurant": "BBQ", "ramen_restaurant": "ramen",
+}
+
+# Inferred from restaurant name when Places types aren't specific enough
+NAME_CUISINE_KEYWORDS: dict[str, str] = {
+    "pizza": "pizza", "sushi": "sushi", "ramen": "ramen", "pho": "Vietnamese",
+    "taco": "Mexican", "tacos": "Mexican", "taqueria": "Mexican", "burrito": "Mexican",
+    "bbq": "BBQ", "chinese": "Chinese", "thai": "Thai", "indian": "Indian",
+    "italian": "Italian", "burger": "burger", "wings": "wings",
+    "seafood": "seafood", "steakhouse": "steakhouse", "steak": "steakhouse",
+    "soba": "Japanese", "izakaya": "Japanese",
+}
+
 FRANCHISE_INDICATORS = [
     "mcdonald", "subway", "chipotle", "starbucks", "domino", "pizza hut",
     "papa john", "taco bell", "chick-fil-a", "wendy", "burger king",
@@ -41,6 +71,9 @@ DELIVERY_PLATFORMS = {
     "Uber Eats": ["ubereats.com", "uber.com/eats"],
     "Grubhub": ["grubhub.com"],
 }
+
+# The three that charge the 20-30% commissions (highest-urgency pitch angle)
+COMMISSION_PLATFORMS = {"DoorDash", "Uber Eats", "Grubhub"}
 
 # Other online ordering platforms (signal: restaurant does online ordering,
 # knows what it costs, and is open to digital solutions)
@@ -80,13 +113,38 @@ def _determine_fit_signal(
 ) -> tuple[str, str]:
     if is_franchise:
         return "red", f"{name} appears to be a franchise chain — Owner.com serves independent restaurants only"
-    if len(platforms) >= 2:
-        return "green", f"{name} is on {' and '.join(platforms)} — paying 20-30% commissions, strong ICP fit for Owner's direct ordering platform"
-    if len(platforms) == 1:
-        return "green", f"{name} is on {platforms[0]} — strong candidate for Owner's commission-free ordering platform"
+
+    commission_platforms = [p for p in platforms if p in COMMISSION_PLATFORMS]
+    other_platforms = [p for p in platforms if p not in COMMISSION_PLATFORMS]
+
+    if len(commission_platforms) >= 2:
+        names = " and ".join(commission_platforms)
+        return "green", f"{name} is on {names} — paying commissions on multiple channels, confirmed high-value ICP"
+    if len(commission_platforms) == 1:
+        return "yellow", (
+            f"{name} is on {commission_platforms[0]} — paying commissions, likely strong ICP "
+            "but verify ordering volume in discovery before pitching hard"
+        )
+    if other_platforms:
+        return "yellow", (
+            f"{name} uses {other_platforms[0]} for ordering — already invested in online ordering, "
+            "open to direct platform conversation but different pitch angle than marketplace commission"
+        )
     if rank_info.get("rank") is None:
-        return "yellow", "Could not verify delivery presence — confirm ordering setup in discovery"
-    return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify if they do online ordering"
+        return "yellow", "Could not verify delivery presence — confirm online ordering setup in discovery"
+    return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify ordering setup in discovery"
+
+
+def _infer_cuisine(name: str, google_types: list | None = None) -> Optional[str]:
+    if google_types:
+        for gt in google_types:
+            if gt in CUISINE_TYPE_MAP:
+                return CUISINE_TYPE_MAP[gt]
+    name_lower = name.lower()
+    for kw, cuisine in NAME_CUISINE_KEYWORDS.items():
+        if kw in name_lower:
+            return cuisine
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -137,6 +195,7 @@ def _get_places_info(name: str, city: str) -> dict:
         info: dict = {
             "review_count": place.get("user_ratings_total"),
             "rating": place.get("rating"),
+            "types": place.get("types", []),
         }
         place_id = place.get("place_id")
         if place_id:
@@ -150,6 +209,71 @@ def _get_places_info(name: str, city: str) -> dict:
         return info
     except Exception:
         return {}
+
+
+def _validate_is_restaurant_sync(name: str, city: str) -> tuple[bool, str]:
+    """
+    Returns (True, "") when the input looks like a real restaurant.
+    Returns (False, reason) when it clearly isn't — or can't be verified.
+    Fails open (returns True) when neither API key is configured.
+    """
+    google_key = os.environ.get("GOOGLE_PLACES_API_KEY")
+    brave_key = os.environ.get("BRAVE_SEARCH_API_KEY")
+
+    if not google_key and not brave_key:
+        return True, ""
+
+    # Google Places with type=restaurant is the most reliable signal
+    if google_key:
+        try:
+            resp = httpx.get(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json",
+                params={"query": f"{name} {city}", "type": "restaurant", "key": google_key},
+                timeout=6,
+                headers=HEADERS,
+            )
+            data = resp.json()
+            status = data.get("status")
+            if status == "ZERO_RESULTS":
+                return False, (
+                    f'"{name}" in {city} doesn\'t appear to be a restaurant. '
+                    "Please check the name and try again."
+                )
+            if status == "OK" and data.get("results"):
+                return True, ""
+        except Exception:
+            pass  # Fall through to Brave
+
+    # Brave fallback: name must appear alongside restaurant-platform signals
+    if brave_key:
+        results = _brave_search(f"{name} restaurant {city}", max_results=8)
+        if not results:
+            return True, ""  # Brave returned nothing — allow through rather than false-block
+
+        name_lower = name.lower()
+        for result in results:
+            title = result.get("title", "").lower()
+            href = result.get("href", "").lower()
+            body = result.get("body", "")[:300].lower()
+            combined = title + " " + href + " " + body
+            if name_lower not in combined:
+                continue
+            if any(site in href for site in RESTAURANT_VALIDATION_SITES):
+                return True, ""
+            if any(kw in combined for kw in ["menu", "restaurant", "dining", "cuisine", "reservations", "takeout", "delivery"]):
+                return True, ""
+
+        return False, (
+            f'"{name}" doesn\'t appear to be a restaurant. '
+            "Please check the name and try again."
+        )
+
+    return True, ""
+
+
+async def validate_restaurant(name: str, city: str) -> tuple[bool, str]:
+    """Async entry point for restaurant validation. Import this in main.py."""
+    return await asyncio.to_thread(_validate_is_restaurant_sync, name, city)
 
 
 def _scrape_website_for_platforms(url: str) -> list:
@@ -197,27 +321,52 @@ def _scrape_website_for_platforms(url: str) -> list:
         return []
 
 
-def _find_competitors(name: str, city: str) -> list:
-    """Find local competitors using Brave Search."""
-    results = _brave_search(f"best restaurants {city} reviews", max_results=12)
+EDITORIAL_TITLE_PATTERNS = [
+    "best restaurants", "top restaurants", "best places to eat",
+    "food guide", "dining guide", "where to eat", "best eats",
+    "top 10", "top 25", "top 50", "top 100", "restaurants in ",
+    "best bars", "best brunch", "best lunch", "best dinner",
+]
+
+def _find_competitors(name: str, city: str, cuisine: Optional[str] = None) -> list:
+    """Find local competitors using Brave Search, filtered to actual restaurants."""
+    query = f"best {cuisine} restaurants {city}" if cuisine else f"best restaurants {city}"
+    results = _brave_search(query, max_results=15)
+
     competitors = []
+    name_lower = name.lower()
+
     for result in results:
         title = result.get("title", "")
         body = result.get("body", "")
-        if name.lower() in title.lower():
+        title_lower = title.lower()
+        combined_lower = title_lower + " " + body.lower()
+
+        # Skip the restaurant itself
+        if name_lower in title_lower:
             continue
-        if not any(
-            kw in (title + body).lower()
-            for kw in ["restaurant", "cafe", "bar", "grill", "kitchen", "bistro", "pizza", "sushi", "taco", "diner"]
-        ):
+
+        # Skip editorial aggregation pages (the real problem)
+        if any(ep in title_lower for ep in EDITORIAL_TITLE_PATTERNS):
             continue
+
+        # Require actual restaurant-type keywords
+        if not any(kw in combined_lower for kw in [
+            "restaurant", "cafe", "café", "bar", "grill", "kitchen",
+            "bistro", "pizza", "sushi", "taco", "diner", "eatery",
+        ]):
+            continue
+
         clean_name = re.split(r"\s*[\|\-–—]\s*", title)[0].strip()
-        if not clean_name or clean_name.lower() == name.lower():
+        # Long titles are editorial pages that slipped through
+        if not clean_name or len(clean_name) > 55 or clean_name.lower() == name_lower:
             continue
+
         review_count = _extract_review_count(body) or _extract_review_count(title)
         competitors.append({"name": clean_name, "review_count": review_count})
         if len(competitors) >= 3:
             break
+
     return competitors
 
 
@@ -239,22 +388,52 @@ def _find_platforms_via_search(name: str, city: str) -> list:
     return found
 
 
-def _check_search_rank(name: str, city: str) -> dict:
-    """Approximate search rank from Brave Search results."""
-    results = _brave_search(f"{name} {city}", max_results=8)
-    for i, result in enumerate(results):
+def _check_search_rank(name: str, city: str, cuisine: Optional[str] = None) -> dict:
+    """Approximate brand + category search rank using Brave Search."""
+    name_lower = name.lower()
+
+    # Brand rank: how the restaurant shows up for its own name
+    brand_results = _brave_search(f"{name} {city}", max_results=8)
+    brand_rank = None
+    snippet = ""
+    review_count = None
+    for i, result in enumerate(brand_results):
         title = result.get("title", "")
         href = result.get("href", "")
         body = result.get("body", "")
-        if name.lower() in title.lower() or name.lower() in href.lower():
+        if name_lower in title.lower() or name_lower in href.lower():
+            brand_rank = i + 1
+            snippet = body[:200]
             review_count = _extract_review_count(body) or _extract_review_count(title)
-            return {
-                "rank": i + 1,
-                "context": f"Appears in top {i + 1} search results for '{name} {city}'",
-                "snippet": body[:200],
-                "review_count": review_count,
-            }
-    return {"rank": None, "context": f"Could not determine search rank for {name}", "snippet": ""}
+            break
+
+    # Category rank: where the restaurant appears in cuisine-specific searches
+    category_rank = None
+    category_query = None
+    if cuisine:
+        category_query = f"best {cuisine} restaurant {city}"
+        cat_results = _brave_search(category_query, max_results=10)
+        for i, result in enumerate(cat_results):
+            if name_lower in result.get("title", "").lower() or name_lower in result.get("href", "").lower():
+                category_rank = i + 1
+                break
+
+    context_parts = []
+    if brand_rank:
+        context_parts.append(f"#{brand_rank} in brand search for '{name} {city}'")
+    if category_rank and category_query:
+        context_parts.append(f"#{category_rank} for '{category_query}'")
+    elif category_query and category_rank is None:
+        context_parts.append(f"Not found in top results for '{category_query}'")
+
+    return {
+        "rank": brand_rank,
+        "category_rank": category_rank,
+        "category_query": category_query,
+        "context": " | ".join(context_parts) if context_parts else f"Could not determine search rank for {name}",
+        "snippet": snippet,
+        "review_count": review_count,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -274,9 +453,12 @@ async def search_restaurant_intelligence(
     """
     is_franchise = _is_likely_franchise(name)
 
-    # --- Google Places: get website URL + review count ---
+    # --- Google Places: website URL, review count, and cuisine types ---
     places_info = await asyncio.to_thread(_get_places_info, name, city)
     effective_url = website_url or places_info.get("website")
+
+    # Cuisine inferred from Places types first, restaurant name as fallback
+    cuisine = _infer_cuisine(name, places_info.get("types", []))
 
     # --- Delivery platforms ---
     if effective_url:
@@ -286,10 +468,10 @@ async def search_restaurant_intelligence(
     else:
         platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
 
-    # --- Competitors + rank in parallel (Brave has no rate limiting) ---
+    # --- Competitors + rank in parallel, both cuisine-aware ---
     competitors, rank_info = await asyncio.gather(
-        asyncio.to_thread(_find_competitors, name, city),
-        asyncio.to_thread(_check_search_rank, name, city),
+        asyncio.to_thread(_find_competitors, name, city, cuisine),
+        asyncio.to_thread(_check_search_rank, name, city, cuisine),
     )
 
     review_count = rank_info.get("review_count") or places_info.get("review_count")
@@ -305,5 +487,8 @@ async def search_restaurant_intelligence(
             "is_franchise": is_franchise,
             "rank_context": rank_info.get("context", ""),
             "review_count": review_count,
+            "category_rank": rank_info.get("category_rank"),
+            "category_query": rank_info.get("category_query"),
+            "cuisine": cuisine,
         },
     }

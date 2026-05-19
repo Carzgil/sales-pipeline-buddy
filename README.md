@@ -1,6 +1,6 @@
 # Sales Call Buddy · Owner.com
 
-An internal tool for Owner.com's outbound sales reps built as part of the Applied AI case study.
+An internal tool for Owner.com's outbound sales reps.
 
 It solves the two root causes of a 0–100% conversion rate variance identified across 150 real call transcripts:
 
@@ -19,7 +19,7 @@ It solves the two root causes of a 0–100% conversion rate variance identified 
 ### 1. Clone the repo
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Carzgil/sales-pipeline-buddy.git
 cd sales-pipeline-buddy
 ```
 
@@ -28,7 +28,7 @@ cd sales-pipeline-buddy
 ```bash
 cd backend
 python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate        
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
@@ -96,7 +96,7 @@ python -m pytest -v
 ### Post-call scorecard
 
 1. Rep pastes a transcript or uploads a `.txt` / `.pdf` file
-2. Claude evaluates the transcript against five behavioral dimensions in ~15 seconds
+2. Claude evaluates the transcript against five behavioral dimensions in ~5 seconds
 3. Each dimension returns a pass/fail with a direct quote from the transcript as evidence
 4. A single coaching note surfaces the most important thing to do differently — specific to this call, not generic advice
 

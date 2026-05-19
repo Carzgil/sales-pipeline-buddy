@@ -1,5 +1,11 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
+export class ApiError extends Error {
+  constructor(public readonly status: number, message: string) {
+    super(message);
+  }
+}
+
 export async function generateBrief(
   restaurantName: string,
   city: string,
@@ -16,7 +22,7 @@ export async function generateBrief(
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || `Request failed (${res.status})`);
+    throw new ApiError(res.status, err.detail || `Request failed (${res.status})`);
   }
   return res.json();
 }
