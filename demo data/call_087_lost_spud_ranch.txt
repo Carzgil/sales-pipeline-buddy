@@ -1,0 +1,242 @@
+================================================================================
+CALL RECORD: call_087
+OUTCOME: NOT BOOKED (Lost)
+================================================================================
+
+RESTAURANT:     Spud Ranch
+CITY / STATE:   New Braunfels, TX
+CUISINE TYPE:   Unknown (Bakery)
+BUSINESS TYPE:  Full Service
+LOCATIONS:      1
+WEBSITE:        spudranch.com
+CALL DURATION:  8 minutes
+REP ID:         rep_13
+
+================================================================================
+WHY THIS CALL WAS LOST — COACHING NOTES
+================================================================================
+
+This call is a structural non-fit loss, the most expensive category of failure
+identified in the data. The restaurant was disqualified during the conversation
+for reasons that were identifiable before the rep ever dialed.
+
+The case study flags that 28% of all lost calls contain explicit non-fit
+language, and that these calls average 5.5 minutes each, longer than ordinary
+rejections. This call ran 8 minutes. The rep handled the discovery respectfully
+and honestly, but 8 minutes of dial capacity was spent reaching a conclusion
+that a 3-minute pre-call review of spudranch.com would have surfaced
+immediately.
+
+1. BUSINESS TYPE NOT VERIFIED BEFORE CALLING: Spud Ranch is a bakery. Owner's
+   product is built around restaurant online ordering, third-party commission
+   reduction, and SEO for food search terms. Bakeries have fundamentally
+   different order economics, average order values, and delivery behaviors.
+   The rep acknowledged mid-call that they "don't usually work with full
+   bakeries." That disqualifier was on the website.
+
+2. VOLUME THRESHOLD NOT MET: The rep correctly asked about online order volume
+   and found that the restaurant was likely below the $3,000-$4,000/month
+   direct online sales threshold needed to make the product economically
+   viable for the customer. The rep handled this honestly and did not push a
+   bad fit. However, a pre-call volume estimate using the restaurant's Sauce
+   presence and DoorDash review count would have suggested low volume before
+   the call.
+
+3. INBOUND LEAD TAKEN AT FACE VALUE: The prospect had proactively reached out
+   to Owner.com, which signals genuine interest. The rep treated the inbound
+   as a strong buying signal without verifying whether the business type and
+   volume profile were actually compatible. Inbound interest does not equal
+   product fit.
+
+4. THE SIGNAL WAS AVAILABLE PRE-CALL: A quick check of spudranch.com shows a
+   bakery concept. The Sauce online ordering presence and DoorDash listing
+   are both visible externally. The rep had all the information needed to
+   either skip this dial or set expectations before the call with a line like:
+   "I want to make sure we're actually a fit for a bakery concept before we
+   spend time on a full demo."
+
+KEY LESSON FOR THE DEMO TOOL: This is exactly the call the Dark Horse Finder
+and the pre-call brief are designed to prevent. A fit signal check before
+dialing would have flagged: bakery business type, low estimated online volume,
+no indication of commission pain. The rep's time would have been redirected to
+a higher-probability dial.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+the prospect (rest_135): Hi, if you record your name and reason for calling,
+I'll see if this person is available.
+
+rep_13: rep_13, Owner.com
+
+the prospect (rest_135): Thanks, rep_13. Please stay on the line.
+the prospect (rest_135): Hello?
+
+rep_13: Hey the prospect, how's it going my brother?
+
+the prospect (rest_135): Hi, rep_13. Hold on a second.
+
+rep_13: yeah no worries.
+
+the prospect (rest_135): Yeah, go ahead,
+
+rep_13: Um, I see... Saw that you reached out to one of our customer service
+you wanted us to follow up with you. Is that right?
+
+the prospect (rest_135): Jackie. Yeah. Yeah, that's correct.
+
+rep_13: Awesome. Awesome. How long have you owned the bakery for?
+
+the prospect (rest_135): This one, since 2018, I used to have a different one
+that opened in 2006. But that one, my wife passed away. My wife had a,
+previously she had kids, so. I left it to them.
+
+rep_13: I'm so sorry to hear that.
+
+the prospect (rest_135): So, listen, I tried for two and a half years straight,
+day, day, night.
+
+rep_13: Yeah.
+
+the prospect (rest_135): But at that point, which passed away, we already had
+two bakeries. So I left them one.
+
+rep_13: Yeah.
+
+the prospect (rest_135): And then I just stood with this one. My goal or my
+plans are to open a second one before the year ends.
+
+rep_13: Okay.
+
+the prospect (rest_135): So the first step that I'm doing towards that is
+reaching out to owner.com to see if
+
+rep_13: Yeah.
+
+the prospect (rest_135): I can start making more money.
+
+rep_13: Sorry, if you can what?
+
+rep_13: Gotcha.
+
+the prospect (rest_135): I want to see if I can make more money by doing this
+move. Everybody's saying that your company is better than I am. So I want to
+give it a try.
+
+rep_13: I'm going to be completely honest with you. I want to make sure that
+you're a good fit. um because i obviously wouldn't want to get you into
+something that wouldn't be a good fit for you that's why we're very selective
+in our process um and so my big thing is right now with your online because
+i'll be completely honest with you we don't work with usually full bakeries
+like if you had some sandwiches and stuff like that kind of wouldn't be an
+issue since it's full bakeries the online ordering aspect delivery aspect is a
+little bit lower than if it was like you know obviously lunch and dinner items.
+
+the prospect (rest_135): Restaurant,
+
+rep_13: Yeah. So right now you're using Sauce for your website, right? Do you
+know how much you're doing online each month with Sauce, roughly?
+
+the prospect (rest_135): yeah, correct. I can check. I don't want to just make
+numbers up.
+
+rep_13: Yeah, of course.
+
+the prospect (rest_135): Let me log in. I should be able to see.
+the prospect (rest_135): I also have DoorDash and... What's the name? Uber.
+
+rep_13: Yeah, yeah, I did see that.
+
+the prospect (rest_135): But I think with your website, they're all the,
+
+rep_13: There's no first party commissions,
+
+the prospect (rest_135): I mean, if you were, yeah.
+
+rep_13: right? So like DoorDash and Uber Eats, they charge, you know, 20 to
+30% fees just to be on the platform and have access to it, which is outrageous.
+With Owner, it's still, it's your domain. It's, but the big difference is it's,
+it's your sales. When you make more money, we're not taking more money. We
+charge a flat monthly rate. We give you the full service up front. There's no
+extra add-ons or stuff like that. We believe in making sure that all of our
+customers have access to the full owner product and then are able to see the
+results, right?
+
+the prospect (rest_135): So I'm right in front of my website. I'm trying to
+see like the date,
+
+rep_13: Yeah.
+
+the prospect (rest_135): like from what date, because I think this is like
+since I moved in with them.
+
+rep_13: Yeah.
+
+the prospect (rest_135): So I'm looking at $15,075, but I think it's... Okay,
+I'm not looking at like an update from which date to what date. I'm just
+looking at the totals.
+
+rep_13: Gotcha.
+
+the prospect (rest_135): But it says 288 orders, and it says 5468 order back.
+Average, $54.68.
+
+rep_13: The average order value is $54.68. Okay.
+
+the prospect (rest_135): Yeah. And it says $288. I'm sorry, $288 orders.
+
+rep_13: 288 orders through Sauce. And then you're saying like $15,000 is a
+total sales?
+
+the prospect (rest_135): It says the total, yeah, it says sales count, $15,075.
+
+rep_13: Okay.
+
+the prospect (rest_135): Again, I'm not seeing what is it called, specific date
+to date, because I'm not sure. This is just giving me the time.
+
+rep_13: Yeah. So how long have you been using Sauce for?
+
+the prospect (rest_135): I can give you, that's the thing that I don't
+remember. I can give you the Uber if you like.
+
+rep_13: Yeah, yeah, yeah. I'll be completely honest with you. If you're making
+directly to your own website, if you're making less than like... $3,500 to
+$4,000 a month, it wouldn't even be a good fit for you, being completely
+honest, because we wouldn't be able to work with any restaurants that have
+volume of less than, we'll say, $3,000 in direct online sales a month. Does
+that kind of make sense? And just because, obviously, you're paying a monthly
+subscription cost, and we want you to get the return on investment for that.
+And that's why I said I wouldn't even bring you into something that wouldn't be
+a good fit for you. um that's really where i'm coming from okay okay um do you
+if you can get the actual like the the data on you know like your uber eats your
+doordash on a monthly basis and your your uh sauce um and
+
+the prospect (rest_135): yeah. Okay.
+
+rep_13: it's more it totals more than 4000 across all of them four or five
+thousand across all of them yeah
+
+the prospect (rest_135): So the, so the, so the, so four should be like the
+least amount. And all right. So let me, let me run, let me not run the numbers.
+And if it's bad, then I'll call back. Otherwise I'll wait till the numbers go
+up. Yeah. Let me set the number.
+
+rep_13: Okay, yeah, yeah, yeah, that's totally fine. You have this number,
+right?
+
+the prospect (rest_135): All right. Thank you,
+
+rep_13: Okay, yeah, if you save the number, I can give you my name as well,
+and then you can reach out to me whenever.
+
+the prospect (rest_135): Jake. All right.
+
+rep_13: No worries. It was really nice speaking with the prospect.
+
+the prospect (rest_135): I'll speak to you soon.
+
+rep_13: Okay, take care.
+
+the prospect (rest_135): Yeah. Thanks.

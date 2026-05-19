@@ -1,0 +1,196 @@
+================================================================================
+CALL RECORD: call_040
+OUTCOME: NOT BOOKED (Lost — Good Fit, Poor Execution)
+================================================================================
+
+RESTAURANT:     The Cace Kitchen
+CITY / STATE:   Longview, TX
+CUISINE TYPE:   Mexican
+BUSINESS TYPE:  Full Service
+LOCATIONS:      1
+WEBSITE:        thecacekitchen.com
+CALL DURATION:  5 minutes
+REP ID:         rep_03
+
+================================================================================
+WHY THIS CALL WAS LOST — COACHING NOTES
+================================================================================
+
+This is the most instructive loss in the dataset. The restaurant was a genuine
+fit. The rep had a real local reference the prospect actually recognized. They
+had the prospect on the phone for 5 minutes. They still lost it, entirely on
+execution.
+
+THE FIT CASE (what a prepared rep would have known before dialing):
+- The Cace Kitchen has no online ordering. They take orders by phone only.
+- They have no delivery presence on DoorDash, Uber Eats, or any third party.
+- They have a website (thecacekitchen.com) but no ordering infrastructure.
+- A Mexican full-service restaurant in Longview with no digital ordering
+  footprint is exactly the profile Owner converts. The pain is there. The
+  revenue opportunity is there. The fit is real.
+
+THE EXECUTION FAILURES:
+
+1. NO PRE-CALL RESEARCH USED ON THE CALL: The rep knew the restaurant was
+   near Breakfast Club, which is a strong opener. But they had clearly not
+   looked at the Cace Kitchen's website, Google rank, or online presence
+   before calling. When the prospect said business was fine, the rep had no
+   specific data to push back with. A prepared rep would have said: "I pulled
+   your report before calling, and when someone searches best Mexican food in
+   Longview you're not showing up in the top results, even though you've been
+   in business 40 years. That's the gap we fix."
+
+2. DISCOVERY ABANDONED TOO EARLY: The rep asked one qualifying question ("you
+   don't have any delivery, right?") and when the prospect said no online
+   ordering, the rep pivoted straight to agreeing and never explored the
+   underlying business situation. They never asked: how are new customers
+   finding you? What does a slow Tuesday look like? Are you seeing customers
+   come from outside Longview? These questions would have surfaced the pain
+   that the prospect's final responses actually hint at.
+
+3. ACCEPTED THE "40 YEARS" OBJECTION WITHOUT A RESPONSE: The prospect said
+   three times that the business had been running the same way for 40 years
+   and they wanted to keep it that way. This is a standard comfort-zone
+   objection, not a real disqualifier. A top rep uses it as an opening: "That
+   track record is exactly why this makes sense. The customers you've built
+   loyalty with over 40 years, you currently have no way to reach them
+   directly when they're not in the building. We fix that." The rep instead
+   validated the objection and accepted it.
+
+4. NO URGENCY AND NO SPECIFIC CONSEQUENCE: The rep never told the prospect
+   what they were losing by staying phone-only. No mention of competitors
+   showing up above them on Google. No estimate of orders going to other
+   Mexican spots in Longview. No number attached to the opportunity. The
+   prospect heard a pitch with no stakes.
+
+5. CLOSED ON THE WRONG THING: The rep's last real attempt was "I could at
+   least show you how you could capture [money on the table]." That's a weak,
+   hedged ask. A confident close would have been: "Griffin at Breakfast Club
+   was in the exact same spot, phone orders only, before we started working
+   together. Can I get you 20 minutes next week to show you what changed for
+   him?" Instead the rep accepted the final no and ended the call.
+
+KEY LESSON: Comfort with the status quo is the most common objection in the
+dataset, and it is almost never a real disqualifier. The rep who arrives with
+specific data (your Google rank, your competitors, what Griffin's numbers
+looked like before vs. after) can make the status quo feel costly. The rep
+who arrives empty-handed can only accept it.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+the prospect (rest_074): Hey the prospect.
+
+rep_03: Yes,
+
+the prospect (rest_074): Hey sir, this is a Peril. How you doing today?
+
+rep_03: very good.
+
+the prospect (rest_074): Great. the prospect, I work with a restaurant called
+the Breakfast Club near you guys. Do you happen to know those guys by any
+chance?
+
+rep_03: Okay, I do.
+
+the prospect (rest_074): Oh, you do? How do you know them?
+
+rep_03: Yes. The Breakfast Club?
+
+the prospect (rest_074): Yeah. Yeah. How do you know them?
+
+rep_03: They're right next to my shop.
+
+the prospect (rest_074): Yeah, yeah. Have you met the owner over there? His
+name is Griffin, Griffin Rod.
+
+rep_03: Yes.
+
+the prospect (rest_074): Oh, great, great. Yeah, I work with those guys. I've
+been working with them for over a year now. I help them increase their online
+ordering through the website and essentially pay less on those third party
+commissions. So I thought that you are doing online ordering right now, but
+you don't have any delivery, right?
+
+rep_03: No, we don't do online ordering. We only do over the phone.
+
+the prospect (rest_074): Oh, you do only over the phone. Okay. Okay.
+
+rep_03: Yes.
+
+the prospect (rest_074): So is that a side of a business that you want to grow?
+
+rep_03: No, actually, again, we just want to continue to do what we have.
+
+the prospect (rest_074): Yeah. Okay.
+
+rep_03: And I think the way we have our business set up is working. It's
+working fine. My family is involved with this business for 40 years, so we
+want to keep it that way.
+
+the prospect (rest_074): Okay, right. So do you guys have any like downtime?
+Like, you know, so what happens is when someone is concentrating on their dine
+in like the Friday, Saturday, Sunday, those are pretty jam packed. So they
+turn off the delivery side of things. But like, you know, when there's a
+downtime, like Monday, Tuesday, Wednesday, that's when you know, they turn on
+the delivery side and you know, make up for the week. So I guess, you know,
+might sound like a dumb question, but do you guys even have the capacity to
+take on more orders right now or what exactly? How does it look like?
+
+rep_03: Well, unfortunately, in the economy that we have in the town, we leave
+after 40 years of business. We learn to manage our time and our downtime. And
+if it's not that busy, then we absorb it. If we get crazy busy, we just speed
+up our strategies, and then we survive.
+
+the prospect (rest_074): okay yeah but like more than survive i was wanting to
+uh you know talk to you about how you could you know at least capture that uh
+you know customer loyalty that you have in town right so like if if there's
+someone outside the outside the city coming into the town and like searching
+for like best mexican food you
+
+rep_03: Yes. Oh,
+
+the prospect (rest_074): need to show up that basically pertains to you getting
+the order or not right so that is exactly that we yeah so that is exactly what
+we do sir we bring you net new customers so people who have never heard of you
+never seen your restaurant before we rep_14 get them to order from you directly
+and uh yeah along with that we also deliver the food for you so it's not just
+uh you know getting new customers we also get them to reorder from you so yeah
+i mean I mean, if it doesn't work for you, it doesn't work for you. I don't I
+totally understand your business model, but I do feel that there is a lot of
+money on the table that I could at least show you how you could capture. Like
+doesn't have to be through me. It's basically just simple changes on your
+website that you could make to be more visible for those, you know, people from
+outside coming in town.
+
+rep_03: I like to say I totally understand your line of work. I I don't want
+to sound rude or arrogant but what we have right now is what we want to keep
+we are very conservative in our ways of working and uh you know, you know if
+it rep_14 start turn and and our customer you end up coming to our business
+then we're welcoming it inside to somewhere else. It's fine. Like I said, um
+I'm just trying to make it simple. I have less people involved running my
+business. And I say, no offense. And again, it's been working for me for 40
+years, and I want to continue to do so.
+
+the prospect (rest_074): yeah I can see that you have mobile app and stuff as
+well right so are you doing it yourself or what exactly yeah on your website
+oh when I click over here it says install mobile app and stuff like on Google
+and place door no
+
+rep_03: Okay? Mobile app? No, we don't. We don't have it. No, it's just, no.
+I mean, you know, people go online and see our phone number and call the order
+they wish to. If that's what you mean. But like I said, you can present your
+offer any way you want, but still the answer is going to be thank you.
+
+the prospect (rest_074): Okay, okay got it.
+
+rep_03: All right.
+
+the prospect (rest_074): So no more business, right? Okay.
+
+rep_03: You got it. Thank you so much for your call.
+
+the prospect (rest_074): Got it. Got it. Okay. Thank you, sir. Take care. Bye
+
+rep_03: You betcha. Bye-bye.
