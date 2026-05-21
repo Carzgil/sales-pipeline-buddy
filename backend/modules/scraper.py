@@ -531,12 +531,14 @@ async def search_restaurant_intelligence(
     )
 
     # --- Delivery platforms ---
+    website_platforms = []
     if effective_url:
-        platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
-        if not platforms:
-            platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
+        website_platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
+        platforms = website_platforms or await asyncio.to_thread(_find_platforms_via_search, name, city)
     else:
         platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
+
+    ordering_on_website = bool(website_platforms)
 
     # --- Competitors + rank in parallel, both cuisine-aware ---
     competitors, rank_info = await asyncio.gather(
@@ -560,5 +562,6 @@ async def search_restaurant_intelligence(
             "category_rank": rank_info.get("category_rank"),
             "category_query": rank_info.get("category_query"),
             "cuisine": cuisine,
+            "ordering_on_website": ordering_on_website,
         },
     }

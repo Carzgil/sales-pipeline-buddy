@@ -1,0 +1,112 @@
+================================================================================
+CALL RECORD: call_201
+OUTCOME: NOT BOOKED (Lost — Structural Non-Fit)
+================================================================================
+
+RESTAURANT:     Superiority Burger
+CITY / STATE:   New York, NY (East Village)
+CUISINE TYPE:   Vegetarian
+BUSINESS TYPE:  Full Service / Counter Service
+LOCATIONS:      1
+WEBSITE:        superiorityburger.com
+CALL DURATION:  6 minutes
+REP ID:         rep_06
+
+================================================================================
+WHY THIS CALL WAS LOST — COACHING NOTES
+================================================================================
+
+This call is a clean structural non-fit loss. The rep was not outperformed
+by a competitor and did not execute poorly. The restaurant simply does not
+have the pain point Owner solves. The loss was avoidable before the dial.
+
+1. NO COMMISSION EXPOSURE: Superiority Burger does not rely on DoorDash,
+   Uber Eats, or any third-party delivery platform in a meaningful way.
+   The restaurant operates as a walk-in counter service concept. The core
+   value proposition of Owner -- reducing third-party commission bleed and
+   building a direct ordering channel -- does not apply here.
+
+2. NO DELIVERY INFRASTRUCTURE TO REPLACE: The restaurant has no delivery
+   operation. There is no commission to cut because there is no delivery
+   volume to speak of. The rep's entire opening pitch assumed commission
+   pain that did not exist, which immediately cost credibility.
+
+3. OPERATING AT CAPACITY: Superiority Burger runs a first-come,
+   first-served walk-in model. The owner has made a deliberate choice to
+   operate this way. This is not a gap -- it is a business decision. Reps
+   who push delivery on restaurants explicitly running a no-delivery
+   model lose the call and waste the dial.
+
+4. ALL OF THIS WAS ON THE WEBSITE: A two-minute check of
+   superiorityburger.com shows no online ordering link, no delivery
+   integration, no DoorDash or Uber Eats badge, and no ordering CTA of
+   any kind. The website is informational only. This is a pre-call
+   disqualifier, not a mid-call discovery.
+
+KEY LESSON: The absence of third-party platforms is not always a buying
+signal. For Cebu Bar & Bistro, it meant they were too busy to need them.
+For Superiority Burger, it means the model does not include delivery at
+all. A pre-call brief that checks for online ordering infrastructure --
+not just third-party presence -- would have flagged this before the rep
+dialed. No ordering infrastructure plus counter service model equals
+no fit.
+
+================================================================================
+TRANSCRIPT
+================================================================================
+
+rep_06: Hey, is this the owner or manager over at Superiority Burger?
+
+the prospect (rest_204): Yeah, this is Brooks. Who's this?
+
+rep_06: Hey Brooks, my name is Ryan, I'm calling from Owner.com. Do you
+have like two minutes? I'll keep it quick.
+
+the prospect (rest_204): Sure, go ahead.
+
+rep_06: Great. So I was doing a little research on Superiority Burger
+before I called. You guys have incredible reviews -- I think you're
+sitting at like 4.5 stars across a few thousand reviews. People clearly
+love the food. What I noticed is that when I go to your website there's
+no direct ordering there, and I wanted to ask -- are you guys doing
+delivery through DoorDash or Uber Eats right now?
+
+the prospect (rest_204): No, we don't do delivery. We never have. People
+come in, they order at the counter, that's kind of the whole thing.
+
+rep_06: Got it. And is that a capacity decision, or just the model you
+prefer?
+
+the prospect (rest_204): It's just the model. We're a counter service
+spot. We do walk-ins. I'm not interested in building out a delivery
+operation, it's not what we are.
+
+rep_06: That makes sense. I guess what I'd push back on a little is that
+a lot of restaurants we work with thought the same thing, and once they
+saw how much direct ordering volume they were leaving on the table
+through their website, it changed the conversation.
+
+the prospect (rest_204): I hear you, but we have a line out the door
+most nights. I'm not looking to add order volume right now. That's
+genuinely not the problem I'm trying to solve.
+
+rep_06: Fair enough. What about on the Google visibility side -- are
+you showing up well when people search for vegetarian food in the East
+Village?
+
+the prospect (rest_204): I think so, yeah. We've been written up pretty
+much everywhere at this point. We're a Michelin Bib Gourmand. I don't
+think discoverability is really our issue either.
+
+rep_06: Yeah, no, that tracks. The Michelin recognition alone does a
+lot of that work. I appreciate your honesty here, Brooks. It sounds like
+we're probably not the right fit for where you are right now.
+
+the prospect (rest_204): Yeah, I don't think so. I appreciate the call
+though.
+
+rep_06: Of course. Good luck with the season, the menu looks great.
+
+the prospect (rest_204): Thanks, take care.
+
+rep_06: You too.

@@ -57,8 +57,8 @@ delivery_setup:
 
 fit_signal:
 - "green": Independent restaurant confirmed on 2 or more of DoorDash/Uber Eats/Grubhub
-- "yellow": 1 commission platform, or ordering tools only, or meaningful data gaps — needs discovery
-- "red": Franchise chain, confirmed dine-in only, or structural non-fit
+- "yellow": 1 commission platform confirmed on their own website, or ordering tools only, or meaningful data gaps — needs discovery
+- "red": Franchise chain, confirmed dine-in only, structural non-fit, OR single commission platform detected only in web search with no ordering infrastructure on the restaurant's own website (ordering_on_website: false)
 
 fit_reason:
 - One sentence, specific to this restaurant
@@ -114,6 +114,7 @@ Intelligence gathered:
 - Category search rank: {category_rank_str}
 - Competitors found: {competitors_str}
 - Delivery platforms confirmed: {platforms_str}
+- Ordering link found on restaurant's own website: {raw.get("ordering_on_website", "unknown")}
 - Is franchise: {raw.get("is_franchise", False)}
 - Review count: {raw.get("review_count") if raw.get("review_count") else "Not found"}
 - Scraper fit signal: {intelligence_data.get("fit_signal", "unknown")} — {intelligence_data.get("fit_reason", "")}
