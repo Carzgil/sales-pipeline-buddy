@@ -97,6 +97,11 @@ export default function BriefCard({ restaurant, brief, onProceedToPostCall }: Pr
           Make your call first — come back here after to score it
         </p>
       </div>
+
+      {/* AI disclaimer */}
+      <p className="text-center font-mono text-[9px] tracking-[0.12em] text-ink-faint uppercase animate-fade-up" style={{ animationDelay: "340ms" }}>
+        AI-generated — verify all information before use
+      </p>
     </div>
   );
 }

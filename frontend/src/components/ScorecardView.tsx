@@ -105,6 +105,11 @@ export default function ScorecardView({ restaurant, scorecard, onNewCall }: Prop
       >
         Start New Call
       </button>
+
+      {/* AI disclaimer */}
+      <p className="text-center font-mono text-[9px] tracking-[0.12em] text-ink-faint uppercase">
+        AI-generated — verify all information before use
+      </p>
     </div>
   );
 }
