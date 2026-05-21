@@ -57,8 +57,8 @@ delivery_setup:
 
 fit_signal:
 - "green": Independent restaurant confirmed on 2 or more of DoorDash/Uber Eats/Grubhub
-- "yellow": 1 commission platform confirmed on their own website, or ordering tools only, or meaningful data gaps — needs discovery
-- "red": Franchise chain, confirmed dine-in only, structural non-fit, single commission platform detected only in web search with no ordering on the restaurant's own website (ordering_on_website: false), OR no commission marketplace detected at all (regardless of other ordering tools)
+- "yellow": 1 commission platform detected (regardless of source), or meaningful data gaps — needs discovery
+- "red": Franchise chain, confirmed dine-in only, structural non-fit, OR no commission marketplace detected at all (regardless of other ordering tools)
 
 fit_reason:
 - One sentence, specific to this restaurant
