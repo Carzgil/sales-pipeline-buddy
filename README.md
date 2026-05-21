@@ -86,39 +86,48 @@ python -m pytest -v
 
 ## How it works
 
-### Pre-call brief
+### ICP evaluation (pre-call brief)
 
-1. Rep searches for a restaurant by name (Google Places autocomplete, or manual entry)
-2. The backend runs three DuckDuckGo searches in parallel: local competitors, approximate search rank, and delivery platform presence (DoorDash, UberEats, Grubhub)
-3. Results are passed to Claude, which generates a structured brief in ~15 seconds
-4. The brief includes: online visibility, delivery setup, a fit signal (green/yellow/red), and a personalized opening suggestion
+The tool collects three types of intelligence before generating the brief:
 
-### Post-call scorecard
+1. **Platform detection** — scrapes the restaurant's own website for DoorDash, Uber Eats, Grubhub, ChowNow, Toast, and similar links. If nothing is found on the site, falls back to a Brave Search query to check for listings.
+2. **Visibility** — runs a Google Places search to find the restaurant's review count and local competitors, plus a category search (e.g. "best Thai restaurant Brooklyn") to surface which competitors rank above them and by how much.
+3. **Franchise check** — name-matches against a list of known chains. Franchises can't control their own website or ordering, so they're disqualified immediately.
 
-1. Rep pastes a transcript or uploads a `.txt` / `.pdf` file
-2. Claude evaluates the transcript against five behavioral dimensions in ~5 seconds
-3. Each dimension returns a pass/fail with a direct quote from the transcript as evidence
-4. A single coaching note surfaces the most important thing to do differently — specific to this call, not generic advice
+Claude then receives all of this as structured data and writes the brief. It never invents details — if the data is thin, the brief says so explicitly.
 
-### Five scored behavioral dimensions
+#### Fit signal logic
 
-Derived from Owner's own transcript data — not generic sales best practices:
+The fit signal is determined by commission marketplace presence (DoorDash, Uber Eats, Grubhub — the platforms charging 20–30% per order):
 
-| Dimension | What it measures |
-|-----------|-----------------|
-| Specific pre-call research referenced | Did the rep name competitors, rankings, or platforms specific to *this* restaurant? |
-| Discovery before pitch | Did the rep ask at least one meaningful question before explaining Owner's product? |
-| Named local social proof | Did the rep cite a *specific nearby restaurant by name* with concrete numbers? |
-| Established contact identity | Did the rep learn and use the prospect's name and role? |
-| ICP qualification before features | Did the rep confirm delivery/ordering volume before pitching the full product? |
+| Signal | Rule |
+|--------|------|
+| 🟢 **Confirmed Fit** | 2 or more commission platforms detected |
+| 🟡 **Verify in Discovery** | Exactly 1 commission platform detected |
+| 🔴 **Likely Non-Fit** | No commission platforms detected, franchise match, or confirmed structural non-fit |
 
-### Fit signal
+The logic is intentionally conservative on false negatives — a restaurant on one platform is yellow (call, verify volume) rather than green, because a single listing in search results doesn't confirm an active delivery operation.
 
-| Signal | Meaning |
-|--------|---------|
-| 🟢 Green | Independent restaurant with delivery platform presence — strong ICP |
-| 🟡 Yellow | Missing data or mixed signals — proceed, verify in discovery |
-| 🔴 Red | Franchise chain, dine-in only, pre-opening, or structural non-fit |
+---
+
+### Transcript grader (post-call scorecard)
+
+1. Rep pastes a transcript or uploads a `.txt` / `.pdf` file after the call
+2. Claude scores it against five behavioral dimensions derived from 150 real Owner.com calls
+3. Each dimension returns **pass or fail** with a **direct quote from the transcript** as the evidence — no paraphrasing, no inference beyond what was said
+4. A single coaching note is generated at the end: one concrete, call-specific thing to do differently — never generic advice
+
+#### The five dimensions
+
+These came from the behavioral patterns that separate the 0% converters from the 100% converters in Owner's own data. Tenure explains almost none of the variance — it's all behavioral.
+
+| # | Dimension | Pass condition |
+|---|-----------|---------------|
+| 1 | **Specific pre-call research** | Rep named a competitor, search rank, or platform specific to *this* restaurant — not "I ran some reports" |
+| 2 | **Discovery before pitch** | Rep asked at least one meaningful question about the restaurant's situation *before* explaining Owner's product |
+| 3 | **Named local social proof** | Rep cited a specific nearby restaurant by name with real numbers — not "our average customer sees $3,500/month" |
+| 4 | **Established contact identity** | Rep confirmed the prospect's name and role, and used the name at least once after learning it |
+| 5 | **ICP qualification before features** | Rep confirmed the restaurant does delivery or online ordering *before* pitching the full product |
 
 ---
 
