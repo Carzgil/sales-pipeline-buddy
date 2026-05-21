@@ -63,6 +63,7 @@ FRANCHISE_INDICATORS = [
     "buffalo wild wings", "panda express", "popeyes", "kfc", "dunkin",
     "sonic", "dairy queen", "little caesars", "jersey mike", "jimmy john",
     "firehouse subs", "potbelly", "noodles & company", "einstein",
+    "tarka",
 ]
 
 # Primary delivery marketplaces (paying 20-30% commission — core Owner ICP signal)
@@ -336,11 +337,24 @@ async def validate_restaurant(name: str, city: str) -> tuple[bool, str]:
     return await asyncio.to_thread(_validate_is_restaurant_sync, name, city)
 
 
-def _scrape_website_for_platforms(url: str) -> list:
+NO_DELIVERY_PHRASES = [
+    "dine-in only", "dine in only",
+    "no takeout", "no take-out", "no take out",
+    "no delivery",
+    "no online ordering", "no online orders",
+    "walk-in only", "walk in only",
+    "cash only",
+    "in-store only", "in store only",
+    "counter service only",
+]
+
+
+def _scrape_website_for_platforms(url: str) -> tuple[list, bool]:
     """
-    Scrape the restaurant's own website for delivery platform links.
-    First checks static HTML content, then follows ordering-related links
-    one level deep to catch redirect-based "Order Now" buttons.
+    Scrape the restaurant's own website for delivery platform links and
+    explicit no-delivery/dine-in-only language.
+
+    Returns (platforms, has_no_delivery_language).
     """
     try:
         resp = httpx.get(url, timeout=8, follow_redirects=True, headers=HEADERS)
@@ -352,8 +366,10 @@ def _scrape_website_for_platforms(url: str) -> list:
             if any(domain in content for domain in domains):
                 found.add(platform)
 
+        has_no_delivery_language = any(phrase in content for phrase in NO_DELIVERY_PHRASES)
+
         if found:
-            return list(found)
+            return list(found), has_no_delivery_language
 
         # Follow ordering links one level deep to catch JS-redirect buttons
         base = f"{urlparse(str(resp.url)).scheme}://{urlparse(str(resp.url)).netloc}"
@@ -376,9 +392,9 @@ def _scrape_website_for_platforms(url: str) -> list:
             except Exception:
                 continue
 
-        return list(found)
+        return list(found), has_no_delivery_language
     except Exception:
-        return []
+        return [], False
 
 
 EDITORIAL_TITLE_PATTERNS = [
@@ -532,8 +548,11 @@ async def search_restaurant_intelligence(
 
     # --- Delivery platforms ---
     website_platforms = []
+    has_no_delivery_language = False
     if effective_url:
-        website_platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
+        website_platforms, has_no_delivery_language = await asyncio.to_thread(
+            _scrape_website_for_platforms, effective_url
+        )
         platforms = website_platforms or await asyncio.to_thread(_find_platforms_via_search, name, city)
     else:
         platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
@@ -563,5 +582,6 @@ async def search_restaurant_intelligence(
             "category_query": rank_info.get("category_query"),
             "cuisine": cuisine,
             "ordering_on_website": ordering_on_website,
+            "has_no_delivery_language": has_no_delivery_language,
         },
     }
