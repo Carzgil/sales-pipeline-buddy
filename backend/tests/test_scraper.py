@@ -67,36 +67,38 @@ class TestReviewCountExtraction:
 
 class TestFitSignal:
     def test_franchise_is_red(self):
-        sig, reason = _determine_fit_signal("McDonald's", True, [], {})
+        sig, reason = _determine_fit_signal("McDonald's", True, [])
         assert sig == "red"
         assert "franchise" in reason.lower()
 
     def test_two_platforms_is_green(self):
-        sig, reason = _determine_fit_signal("Tony's Pizza", False, ["DoorDash", "Uber Eats"], {})
+        sig, reason = _determine_fit_signal("Tony's Pizza", False, ["DoorDash", "Uber Eats"])
         assert sig == "green"
         assert "DoorDash" in reason
 
     def test_one_platform_is_yellow(self):
         # 1 commission platform = yellow (verify volume) — needs 2+ for confirmed green
-        sig, reason = _determine_fit_signal("Maria's Kitchen", False, ["Grubhub"], {})
+        sig, reason = _determine_fit_signal("Maria's Kitchen", False, ["Grubhub"])
         assert sig == "yellow"
         assert "Grubhub" in reason
 
-    def test_no_data_is_yellow(self):
-        sig, reason = _determine_fit_signal("Unknown Restaurant", False, [], {"rank": None})
-        assert sig == "yellow"
+    def test_no_platforms_is_red(self):
+        # 0 commission platforms = red — no delivery pain to solve
+        sig, reason = _determine_fit_signal("Unknown Restaurant", False, [])
+        assert sig == "red"
 
-    def test_rank_but_no_platforms_is_yellow(self):
-        sig, reason = _determine_fit_signal("Visible Place", False, [], {"rank": 3})
-        assert sig == "yellow"
+    def test_no_commission_platform_with_ordering_tool_is_red(self):
+        # Toast only = no commission exposure = red
+        sig, reason = _determine_fit_signal("Visible Place", False, ["Toast"])
+        assert sig == "red"
 
     def test_franchise_overrides_platform_presence(self):
         # Even if platforms are found, a franchise is still a non-fit
-        sig, reason = _determine_fit_signal("Subway", True, ["DoorDash"], {})
+        sig, reason = _determine_fit_signal("Subway", True, ["DoorDash"])
         assert sig == "red"
 
     def test_reason_is_nonempty_string(self):
         for platforms in [[], ["DoorDash"], ["DoorDash", "Uber Eats"]]:
-            _, reason = _determine_fit_signal("Test", False, platforms, {})
+            _, reason = _determine_fit_signal("Test", False, platforms)
             assert isinstance(reason, str)
             assert len(reason) > 0
