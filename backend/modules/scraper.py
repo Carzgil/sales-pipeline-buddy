@@ -110,7 +110,7 @@ def _extract_review_count(text: str) -> Optional[int]:
 
 
 def _determine_fit_signal(
-    name: str, is_franchise: bool, platforms: list, rank_info: dict
+    name: str, is_franchise: bool, platforms: list
 ) -> tuple[str, str]:
     if is_franchise:
         return "red", f"{name} appears to be a franchise chain — Owner.com serves independent restaurants only"
@@ -127,13 +127,11 @@ def _determine_fit_signal(
             "but verify ordering volume in discovery before pitching hard"
         )
     if other_platforms:
-        return "yellow", (
-            f"{name} uses {other_platforms[0]} for ordering — already invested in online ordering, "
-            "open to direct platform conversation but different pitch angle than marketplace commission"
+        return "red", (
+            f"{name} uses {other_platforms[0]} for ordering but has no commission marketplace presence — "
+            "no DoorDash/Uber Eats/Grubhub commission pain to solve"
         )
-    if rank_info.get("rank") is None:
-        return "yellow", "Could not verify delivery presence — confirm online ordering setup in discovery"
-    return "yellow", f"{name} has online visibility but no detected delivery platform presence — verify ordering setup in discovery"
+    return "red", f"{name} has no detected commission marketplace presence — likely no delivery operation or operating at capacity by design"
 
 
 def _infer_cuisine(
@@ -337,24 +335,11 @@ async def validate_restaurant(name: str, city: str) -> tuple[bool, str]:
     return await asyncio.to_thread(_validate_is_restaurant_sync, name, city)
 
 
-NO_DELIVERY_PHRASES = [
-    "dine-in only", "dine in only",
-    "no takeout", "no take-out", "no take out",
-    "no delivery",
-    "no online ordering", "no online orders",
-    "walk-in only", "walk in only",
-    "cash only",
-    "in-store only", "in store only",
-    "counter service only",
-]
-
-
-def _scrape_website_for_platforms(url: str) -> tuple[list, bool]:
+def _scrape_website_for_platforms(url: str) -> list:
     """
-    Scrape the restaurant's own website for delivery platform links and
-    explicit no-delivery/dine-in-only language.
-
-    Returns (platforms, has_no_delivery_language).
+    Scrape the restaurant's own website for delivery platform links.
+    First checks static HTML content, then follows ordering-related links
+    one level deep to catch redirect-based "Order Now" buttons.
     """
     try:
         resp = httpx.get(url, timeout=8, follow_redirects=True, headers=HEADERS)
@@ -366,10 +351,8 @@ def _scrape_website_for_platforms(url: str) -> tuple[list, bool]:
             if any(domain in content for domain in domains):
                 found.add(platform)
 
-        has_no_delivery_language = any(phrase in content for phrase in NO_DELIVERY_PHRASES)
-
         if found:
-            return list(found), has_no_delivery_language
+            return list(found)
 
         # Follow ordering links one level deep to catch JS-redirect buttons
         base = f"{urlparse(str(resp.url)).scheme}://{urlparse(str(resp.url)).netloc}"
@@ -392,9 +375,9 @@ def _scrape_website_for_platforms(url: str) -> tuple[list, bool]:
             except Exception:
                 continue
 
-        return list(found), has_no_delivery_language
+        return list(found)
     except Exception:
-        return [], False
+        return []
 
 
 EDITORIAL_TITLE_PATTERNS = [
@@ -548,11 +531,8 @@ async def search_restaurant_intelligence(
 
     # --- Delivery platforms ---
     website_platforms = []
-    has_no_delivery_language = False
     if effective_url:
-        website_platforms, has_no_delivery_language = await asyncio.to_thread(
-            _scrape_website_for_platforms, effective_url
-        )
+        website_platforms = await asyncio.to_thread(_scrape_website_for_platforms, effective_url)
         platforms = website_platforms or await asyncio.to_thread(_find_platforms_via_search, name, city)
     else:
         platforms = await asyncio.to_thread(_find_platforms_via_search, name, city)
@@ -566,7 +546,7 @@ async def search_restaurant_intelligence(
     )
 
     review_count = rank_info.get("review_count") or places_info.get("review_count")
-    fit_signal, fit_reason = _determine_fit_signal(name, is_franchise, platforms, rank_info)
+    fit_signal, fit_reason = _determine_fit_signal(name, is_franchise, platforms)
 
     return {
         "google_rank": rank_info.get("rank"),
@@ -582,6 +562,5 @@ async def search_restaurant_intelligence(
             "category_query": rank_info.get("category_query"),
             "cuisine": cuisine,
             "ordering_on_website": ordering_on_website,
-            "has_no_delivery_language": has_no_delivery_language,
         },
     }
