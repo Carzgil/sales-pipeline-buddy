@@ -80,117 +80,169 @@ who arrives empty-handed can only accept it.
 TRANSCRIPT
 ================================================================================
 
-the prospect (rest_074): Hey the prospect.
-
-rep_03: Yes,
-
-the prospect (rest_074): Hey sir, this is a Peril. How you doing today?
-
-rep_03: very good.
-
-the prospect (rest_074): Great. the prospect, I work with a restaurant called
-the Breakfast Club near you guys. Do you happen to know those guys by any
-chance?
-
-rep_03: Okay, I do.
-
-the prospect (rest_074): Oh, you do? How do you know them?
-
-rep_03: Yes. The Breakfast Club?
-
-the prospect (rest_074): Yeah. Yeah. How do you know them?
-
-rep_03: They're right next to my shop.
-
-the prospect (rest_074): Yeah, yeah. Have you met the owner over there? His
-name is Griffin, Griffin Rod.
-
-rep_03: Yes.
-
-the prospect (rest_074): Oh, great, great. Yeah, I work with those guys. I've
-been working with them for over a year now. I help them increase their online
-ordering through the website and essentially pay less on those third party
-commissions. So I thought that you are doing online ordering right now, but
-you don't have any delivery, right?
-
-rep_03: No, we don't do online ordering. We only do over the phone.
-
-the prospect (rest_074): Oh, you do only over the phone. Okay. Okay.
-
-rep_03: Yes.
-
-the prospect (rest_074): So is that a side of a business that you want to grow?
-
-rep_03: No, actually, again, we just want to continue to do what we have.
-
-the prospect (rest_074): Yeah. Okay.
-
-rep_03: And I think the way we have our business set up is working. It's
-working fine. My family is involved with this business for 40 years, so we
-want to keep it that way.
-
-the prospect (rest_074): Okay, right. So do you guys have any like downtime?
-Like, you know, so what happens is when someone is concentrating on their dine
-in like the Friday, Saturday, Sunday, those are pretty jam packed. So they
-turn off the delivery side of things. But like, you know, when there's a
-downtime, like Monday, Tuesday, Wednesday, that's when you know, they turn on
-the delivery side and you know, make up for the week. So I guess, you know,
-might sound like a dumb question, but do you guys even have the capacity to
-take on more orders right now or what exactly? How does it look like?
-
-rep_03: Well, unfortunately, in the economy that we have in the town, we leave
-after 40 years of business. We learn to manage our time and our downtime. And
-if it's not that busy, then we absorb it. If we get crazy busy, we just speed
-up our strategies, and then we survive.
-
-the prospect (rest_074): okay yeah but like more than survive i was wanting to
-uh you know talk to you about how you could you know at least capture that uh
-you know customer loyalty that you have in town right so like if if there's
-someone outside the outside the city coming into the town and like searching
-for like best mexican food you
-
-rep_03: Yes. Oh,
-
-the prospect (rest_074): need to show up that basically pertains to you getting
-the order or not right so that is exactly that we yeah so that is exactly what
-we do sir we bring you net new customers so people who have never heard of you
-never seen your restaurant before we rep_14 get them to order from you directly
-and uh yeah along with that we also deliver the food for you so it's not just
-uh you know getting new customers we also get them to reorder from you so yeah
-i mean I mean, if it doesn't work for you, it doesn't work for you. I don't I
-totally understand your business model, but I do feel that there is a lot of
-money on the table that I could at least show you how you could capture. Like
-doesn't have to be through me. It's basically just simple changes on your
-website that you could make to be more visible for those, you know, people from
-outside coming in town.
-
-rep_03: I like to say I totally understand your line of work. I I don't want
-to sound rude or arrogant but what we have right now is what we want to keep
-we are very conservative in our ways of working and uh you know, you know if
-it rep_14 start turn and and our customer you end up coming to our business
-then we're welcoming it inside to somewhere else. It's fine. Like I said, um
-I'm just trying to make it simple. I have less people involved running my
-business. And I say, no offense. And again, it's been working for me for 40
-years, and I want to continue to do so.
-
-the prospect (rest_074): yeah I can see that you have mobile app and stuff as
-well right so are you doing it yourself or what exactly yeah on your website
-oh when I click over here it says install mobile app and stuff like on Google
-and place door no
-
-rep_03: Okay? Mobile app? No, we don't. We don't have it. No, it's just, no.
-I mean, you know, people go online and see our phone number and call the order
-they wish to. If that's what you mean. But like I said, you can present your
-offer any way you want, but still the answer is going to be thank you.
-
-the prospect (rest_074): Okay, okay got it.
-
-rep_03: All right.
-
-the prospect (rest_074): So no more business, right? Okay.
-
-rep_03: You got it. Thank you so much for your call.
-
-the prospect (rest_074): Got it. Got it. Okay. Thank you, sir. Take care. Bye
-
-rep_03: You betcha. Bye-bye.
+rep_03: Hey the prospect.
+the prospect (rest_074): Yes,
+rep_03: Hey sir,
+rep_03: this is a Peril.
+rep_03: How you doing today?
+the prospect (rest_074): very good.
+rep_03: Great.
+rep_03: the prospect,
+rep_03: I work with a restaurant called the
+rep_03: Breakfast Club near you guys.
+rep_03: Do you happen to know those guys by any chance?
+the prospect (rest_074): Okay,
+the prospect (rest_074): I do.
+rep_03: Oh,
+rep_03: you do?
+rep_03: How do you know them?
+the prospect (rest_074): Yes.
+the prospect (rest_074): The Breakfast Club?
+rep_03: Yeah.
+rep_03: Yeah.
+rep_03: How do you know them?
+the prospect (rest_074): They're right next to my shop.
+rep_03: Yeah,
+rep_03: yeah.
+rep_03: Have you met the owner over there?
+rep_03: His name is Griffin,
+rep_03: Griffin Rod.
+the prospect (rest_074): Yes.
+rep_03: Oh,
+rep_03: great,
+rep_03: great.
+rep_03: Yeah,
+rep_03: I work with those guys.
+rep_03: I've been working with them for over a year now.
+rep_03: I help them increase their online ordering through the website and essentially pay less on those third party commissions.
+rep_03: So
+rep_03: I thought that you are doing online ordering right now,
+rep_03: but you don't have any delivery,
+rep_03: right?
+the prospect (rest_074): No,
+the prospect (rest_074): we don't do online ordering.
+the prospect (rest_074): We only do over the phone.
+rep_03: Oh,
+rep_03: you do only over the phone.
+rep_03: Okay.
+rep_03: Okay.
+the prospect (rest_074): Yes.
+rep_03: So is that a side of a business that you want to grow?
+the prospect (rest_074): No,
+the prospect (rest_074): actually,
+the prospect (rest_074): again,
+the prospect (rest_074): we just want to continue to do what we have.
+rep_03: Yeah.
+rep_03: Okay.
+the prospect (rest_074): And
+the prospect (rest_074): I think the way we have our business set up is working.
+the prospect (rest_074): It's working fine.
+the prospect (rest_074): My family is involved with this business for 40 years,
+the prospect (rest_074): so we want to keep it that way.
+rep_03: Okay,
+rep_03: right.
+rep_03: So do you guys have any like downtime?
+rep_03: Like,
+rep_03: you know,
+rep_03: so what happens is when someone is concentrating on their dine in like the
+rep_03: Friday, Saturday,
+rep_03: Sunday,
+rep_03: those are pretty jam packed.
+rep_03: So they turn off the delivery side of things.
+rep_03: But like,
+rep_03: you know,
+rep_03: when there's a downtime,
+rep_03: like Monday,
+rep_03: Tuesday,
+rep_03: Wednesday,
+rep_03: that's when you know,
+rep_03: they turn on the delivery side and you know,
+rep_03: make up for the week.
+rep_03: So
+rep_03: I guess,
+rep_03: you know,
+rep_03: might sound like a dumb question,
+rep_03: but
+rep_03: Do you guys even have the capacity to take on more orders right now or what exactly?
+rep_03: How does it look like?
+the prospect (rest_074): Well,
+the prospect (rest_074): unfortunately,
+the prospect (rest_074): in the economy that we have in the town,
+the prospect (rest_074): we leave after 40 years of business.
+the prospect (rest_074): We learn to manage our time and our downtime.
+the prospect (rest_074): And if it's not that busy,
+the prospect (rest_074): then we absorb it.
+the prospect (rest_074): If we get crazy busy,
+the prospect (rest_074): we just speed up our strategies,
+the prospect (rest_074): and then we survive.
+rep_03: okay yeah but like more than survive i was wanting to uh you know talk to you about how you could you know at least capture that uh you know customer loyalty that you have in town right so like if if there's someone outside the outside the city coming into the town and like searching for like best mexican food you
+the prospect (rest_074): Yes.
+the prospect (rest_074): Oh,
+rep_03: need to show up that basically pertains to you getting the order or not right
+rep_03: so that is exactly that we yeah so that is exactly what we do sir we bring you net new customers so people who have never heard of you never seen your restaurant before we rep_14 get them to order from you directly and uh yeah along
+the prospect (rest_074): yes.
+rep_03: with that we also deliver the food for you so it's not just uh you know getting new customers we also get them to reorder from you so yeah i mean
+rep_03: I mean,
+rep_03: if it doesn't work for you,
+rep_03: it doesn't work for you.
+rep_03: I don't I totally understand your business model,
+rep_03: but
+rep_03: I do feel that there is a lot of money on the table that I could at least show you how you could capture.
+rep_03: Like doesn't have to be through me.
+rep_03: It's basically just simple changes on your website that you could make to be more visible for those,
+rep_03: you know,
+rep_03: people from outside coming in town.
+the prospect (rest_074): I like to say I totally understand your line of work.
+the prospect (rest_074): I I don't want to sound rude or arrogant but
+the prospect (rest_074): What we have right now is what we want to keep we are very conservative in our ways of working and uh You know,
+rep_03: Okay.
+the prospect (rest_074): you know if it rep_14 start turn and and our customer
+the prospect (rest_074): You end up coming to our business then we're welcoming it inside to somewhere else.
+the prospect (rest_074): It's fine.
+the prospect (rest_074): Like I said,
+the prospect (rest_074): um
+the prospect (rest_074): I'm just trying to make it simple.
+the prospect (rest_074): I have less people involved running my business.
+the prospect (rest_074): And I say,
+the prospect (rest_074): no offense.
+the prospect (rest_074): And again,
+the prospect (rest_074): it's been working for me for
+the prospect (rest_074): 40 years,
+the prospect (rest_074): and I want to continue to do so.
+rep_03: yeah
+rep_03: I can see that you have mobile app and stuff as well right so are you doing it yourself or what exactly yeah on your website oh when I click over here it says install mobile app and stuff like on Google and place door no
+the prospect (rest_074): Okay?
+the prospect (rest_074): Mobile app?
+the prospect (rest_074): No,
+the prospect (rest_074): we don't.
+the prospect (rest_074): We don't have it.
+the prospect (rest_074): No,
+the prospect (rest_074): it's just,
+the prospect (rest_074): no.
+the prospect (rest_074): I mean,
+the prospect (rest_074): you know,
+the prospect (rest_074): people go online and see our phone number and call the order they wish to.
+the prospect (rest_074): If that's what you mean.
+the prospect (rest_074): But like I said,
+the prospect (rest_074): you can present your offer any way you want,
+the prospect (rest_074): but still the answer is going to be thank you.
+rep_03: Okay,
+rep_03: okay got it.
+the prospect (rest_074): Okay?
+rep_03: So no more business,
+the prospect (rest_074): All right.
+rep_03: right?
+rep_03: Okay.
+the prospect (rest_074): You got it.
+rep_03: Okay.
+the prospect (rest_074): Thank you so much for your call.
+rep_03: Got it.
+rep_03: Got it.
+rep_03: Okay.
+rep_03: Thank you,
+the prospect (rest_074): All right.
+rep_03: sir.
+rep_03: Take care.
+the prospect (rest_074): You betcha.
+rep_03: Bye
+the prospect (rest_074): Bye-bye.

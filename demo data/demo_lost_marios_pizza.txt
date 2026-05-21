@@ -1,0 +1,53 @@
+the prospect (rest_114): Hello?
+the prospect (rest_114): I'm doing all right.
+rep_08: Hey the prospect,
+rep_08: it's Subhi calling you.
+rep_08: How are you today?
+rep_08: Gotcha.
+rep_08: I was reaching out to you about rest_114,
+rep_08: the restaurant.
+the prospect (rest_114): Okay.
+rep_08: So I work with
+rep_08: Harna. He owns the
+rep_08: Indian Kitchen,
+rep_08: Bar and the prospect near one of the
+rep_08: rest_114,
+rep_08: if you're familiar with them.
+the prospect (rest_114): which city?
+rep_08: So I'm referring to,
+rep_08: I believe you're the owner of the Shoreview one?
+the prospect (rest_114): Yep,
+rep_08: Yeah,
+rep_08: this is a franchise,
+rep_08: correct?
+the prospect (rest_114): right.
+rep_08: So
+rep_08: I was curious,
+rep_08: the prospect,
+rep_08: do you have control over your own website,
+rep_08: how it looks,
+rep_08: or are you using the franchise?
+the prospect (rest_114): That's part of something we get from corporate.
+rep_08: Oh,
+rep_08: it's part of something you get from corporate.
+rep_08: Well,
+rep_08: I guess this may or may not be super relevant in that case,
+rep_08: but I'm giving you a call from Owner.com.
+rep_08: We work with restaurants to improve the way they rank on Google so customers can find them more easily.
+the prospect (rest_114): Oh,
+the prospect (rest_114): yeah,
+the prospect (rest_114): I'm not super interested.
+rep_08: Honestly,
+rep_08: it would have to be something the franchise adopts,
+rep_08: in your case,
+rep_08: I guess.
+rep_08: Which is why I guess it probably wouldn't be the most relevant.
+rep_08: I thought you guys would be a good fit because of your online setup.
+rep_08: I appreciate you taking the call,
+rep_08: though.
+rep_08: Have a good rest of your day,
+the prospect (rest_114): Yeah,
+the prospect (rest_114): no problem.
+rep_08: the prospect.
+rep_08: Take care.
+the prospect (rest_114): You too.
